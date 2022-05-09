@@ -6,30 +6,29 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/09 18:15:58 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/09 20:49:33 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	cub3D
 
-MLX		=	-L ./_MLX42/ -lmlx -framework OpenGL -framework AppKit
+MLX		=	./_MLX42/libmlx42.a
+
+GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
 
 LIBFT	=	./inc/libft/
 
-PRSR	=	./src/parser/
-
-SRC		=	./src/main.c \
-			$(PRSR)map.c $(PRSR)validate_map.c
+SRC		=	./src/main.c $(shell find ./src/*/ -iname "*.c")
 
 OBJ		=	$(SRC:.c=.o)
 
 $(NAME): $(OBJ)
 	make -C $(LIBFT)
-	$(CC) $(MLX) -o $(NAME) $(OBJ) $(LIBFT)libft.a
+	$(CC) -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
 	
 clean:
-	rm -f */*/*.o
-	rm -f */*.o
+	rm -f $(shell find ./src/* -iname "*.o")
+	rm -f src/main.o
 
 fclean:
 	rm -f cub3D

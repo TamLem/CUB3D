@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 18:10:33 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/09 20:57:38 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static char	**return_map(char *file)
 	int		fd;
 
 	mapdata = malloc(sizeof(char *) * (get_line_count(file)));
-	if (!mapdata) 
-		perror("Couldn't allocate mapdata."); //perror is forbidden
+	if (!mapdata)
+		perror("Couldn't allocate mapdata.");
 	fd = open(file, O_RDONLY);
 	i = 0;
 	line = get_next_line(fd);
@@ -56,7 +56,7 @@ static char	**return_map(char *file)
 	return (mapdata);
 }
 
-static bool check_extension(char *str)
+static bool	check_extension(char *str)
 {
 	int	i;
 
@@ -75,7 +75,7 @@ static bool check_extension(char *str)
 	return (false);
 }
 
-static int find_map_start(char **map)
+static int	find_map_start(char **map)
 {
 	int	i;
 
@@ -92,5 +92,6 @@ bool	parse_map(t_data *data, char *file)
 	data->map = return_map(file);
 	if (validate_map(data->map + find_map_start(data->map)))
 		return (true);
+	printf("Invalid Map!\n");
 	return (false);
 }
