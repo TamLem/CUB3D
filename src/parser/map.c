@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 18:04:16 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/09 18:10:33 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ static int	get_line_count(char *file)
 	return (count);
 }
 
-static char	**return_map(char *path)
+static char	**return_map(char *file)
 {
 	char	**mapdata;
 	char	*line;
 	int		i;
 	int		fd;
 
-	mapdata = malloc(sizeof(char *) * (get_line_count(path)));
+	mapdata = malloc(sizeof(char *) * (get_line_count(file)));
 	if (!mapdata) 
 		perror("Couldn't allocate mapdata."); //perror is forbidden
-	fd = open(path, O_RDONLY);
+	fd = open(file, O_RDONLY);
 	i = 0;
 	line = get_next_line(fd);
 	while (line)

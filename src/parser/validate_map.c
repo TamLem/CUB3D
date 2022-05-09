@@ -6,14 +6,14 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 18:05:49 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/09 18:11:27 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
 // TODO:
-// COUNT PLAYER CHARS == 1
+// COUNT PLAYER CHARS (N || S || E || W) == 1
 // CHECK LENGTHS ARE CONSISTENT
 // CHECK BORDERS
 

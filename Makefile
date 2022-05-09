@@ -6,22 +6,22 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/09 17:51:45 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/09 18:15:58 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3D
+NAME	=	cub3D
 
-MLX =	-L ./_MLX42/ -lmlx -framework OpenGL -framework AppKit
+MLX		=	-L ./_MLX42/ -lmlx -framework OpenGL -framework AppKit
 
-LIBFT =	./inc/libft/
+LIBFT	=	./inc/libft/
 
-PRSR =	./src/parser/
+PRSR	=	./src/parser/
 
-SRC	=	./src/main.c \
-		$(PRSR)map.c $(PRSR)validate_map.c
+SRC		=	./src/main.c \
+			$(PRSR)map.c $(PRSR)validate_map.c
 
-OBJ =	$(SRC:.c=.o)
+OBJ		=	$(SRC:.c=.o)
 
 $(NAME): $(OBJ)
 	make -C $(LIBFT)
