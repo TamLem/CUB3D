@@ -1,6 +1,11 @@
 F 91,78,78
 C 184,220,253
 
+NO ./textures/txt_no.xpm
+SO ./textures/txt_so.xpm
+WE ./textures/txt_we.xpm
+EA ./textures/txt_ea.xpm
+
 111111111111111111111111111111
 100000010100000100001000001001
 100000000000000000000000000001

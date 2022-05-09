@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 21:46:09 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/09 22:39:47 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,14 @@ bool	parse_map(t_data *data, char *file)
 	if (!check_extension(file))
 		return (false);
 	data->map = return_map(file);
-	if (validate_map(data->map + find_map_start(data->map)))
-	{
-		get_info(data);
+	data->f.green = -1;
+	data->f.red = -1;
+	data->f.blue = -1;
+	data->c.green = -1;
+	data->c.red = -1;
+	data->c.blue = -1;
+	if (validate_map(data->map + find_map_start(data->map)) && get_info(data))
 		return (true);
-	}
-	printf("Invalid Map!\n");
+	printf("Invalid Mapfile!\n");
 	return (false);
 }
