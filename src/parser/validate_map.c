@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 20:58:15 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 14:47:29 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ static bool	check_chars(char **map)
 	return (true);
 }
 
-bool	validate_map(char **map)
+bool	validate_map(char **map, t_data *data)
 {
 	if (check_chars(map) && check_format(map))
 		return (true);
+	error_msg("A Problem occured with parsing the map!", data);
 	return (false);
 }

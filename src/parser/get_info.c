@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 22:43:58 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:14:49 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ static	bool	check_colors(t_data *data)
 
 	c = data->c;
 	f = data->f;
-	if (f.red > -1 && f.green > -1 && f.blue > -1
-		&& c.red > -1 && c.green > -1 && c.blue > -1)
+	if ((f.red > -1 && f.green > -1 && f.blue > -1
+			&& c.red > -1 && c.green > -1 && c.blue > -1)
+		&& (f.red < 256 && f.green < 256 && f.blue < 256
+			&& c.red < 256 && c.green < 256 && c.blue < 256))
 		return (true);
-	printf("Wrong Color Format!\n");
+	error_msg("Wrong color Values! (0-255)", data);
 	return (false);
 }
 
@@ -35,6 +37,11 @@ static void	find_color_cf(t_data *data, char *str)
 	colors = ft_split(str + 2, ',');
 	while (colors[i])
 		i++;
+	if (i != 3)
+	{
+		free_2d(colors);
+		error_msg("Wrong color format! 'C/F R,G,B'", data);
+	}
 	if (str[0] == 'C')
 	{
 		data->c.red = ft_atoi(colors[0]);
@@ -47,11 +54,7 @@ static void	find_color_cf(t_data *data, char *str)
 		data->f.green = ft_atoi(colors[1]);
 		data->f.blue = ft_atoi(colors[2]);
 	}
-	i = -1;
-	while (colors[++i])
-		free(colors[i]);
-	free(colors);
-	colors = NULL;
+	free_2d(colors);
 }
 
 static void	set_texture_path(t_data *data, char *str)

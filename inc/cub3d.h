@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/09 22:31:22 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:01:48 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 # include <stdio.h>
 # include <stdbool.h>
 
+enum e_error {
+	mapfile = 5,
+	map_err,
+	fc,
+	txt,
+	mllc
+};
+
 # define WIDTH 1280
 # define HEIGHT 768
 
@@ -32,6 +40,7 @@ typedef struct s_color
 
 typedef struct s_data
 {
+	mlx_t	*mlx;
 	char	**map;
 	char	**txt_paths;
 
@@ -41,7 +50,11 @@ typedef struct s_data
 
 // PARSER
 bool	parse_map(t_data *data, char *file);
-bool	validate_map(char **map);
+bool	validate_map(char **map, t_data *data);
 bool	get_info(t_data *data);
+
+// UTILS
+void	error_msg(char *msg, t_data *data);
+void	free_2d(char **arr);
 
 #endif
