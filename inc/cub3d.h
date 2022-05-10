@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:01:48 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:37:43 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <memory.h>
 
 enum e_error {
 	mapfile = 5,
@@ -43,18 +44,23 @@ typedef struct s_data
 	mlx_t	*mlx;
 	char	**map;
 	char	**txt_paths;
-
 	t_color	c;
 	t_color	f;
 }	t_data;
+
+t_data	g_data;
 
 // PARSER
 bool	parse_map(t_data *data, char *file);
 bool	validate_map(char **map, t_data *data);
 bool	get_info(t_data *data);
 
+// DRAW
+int init(void);
+
 // UTILS
 void	error_msg(char *msg, t_data *data);
 void	free_2d(char **arr);
+int		find_map_start(char **map);
 
 #endif

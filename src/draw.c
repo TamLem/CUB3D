@@ -1,44 +1,18 @@
-#include "../_MLX42/include/MLX42/MLX42.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <memory.h>
+#include "../inc/cub3d.h"
 
 mlx_image_t	*g_img;
 mlx_image_t *img_player;
 
-#define CELL_WIDTH 32
-#define CELL_HEIGHT 32
-
-char map[20][20] = {
-	"11111111111111111111",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000011111",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"11111100000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"10000000000000000001",
-	"11111111111111111111",
-};
+#define CELL_WIDTH 16
+#define CELL_HEIGHT 16
 
 bool	isPointInFloor(int x, int y)
 {
 	int x_cell;
 	int y_cell;
+	char	**map;
 
+	map = g_data.map + find_map_start(g_data.map);
 	x_cell = x / CELL_WIDTH;
 	y_cell = y / CELL_HEIGHT;
 	printf("x: %d y: %d\n", x_cell, y_cell);
@@ -92,16 +66,18 @@ void	draw_cell(mlx_image_t *img, int x, int y, int color)
 	}
 }
 
-void	draw_map(mlx_image_t *img)
+void	draw_map(mlx_image_t *img, t_data *data)
 {
 	int	i;
 	int	j;
-
+	char	**map;
+	
+	map = data->map + find_map_start(data->map);
 	i = 0;
-	while (i < 20)
+	while (i < 44)
 	{
 		j = 0;
-		while (j < 20)
+		while (j < 30)
 		{
 			if (map[i][j] == '1')
 				draw_cell(img, j*CELL_WIDTH, i*CELL_HEIGHT, 0xFFFFFF);
@@ -127,12 +103,12 @@ int init(void)
 	void	*mlx;
 	void	*win;
 
-	mlx = mlx_init(1028, 900, "cub3D", true);
+	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!mlx)
 		exit(1);
-	g_img = mlx_new_image(mlx, 1028, 900);
+	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(mlx, g_img, 0, 0);
-	draw_map(g_img);
+	draw_map(g_img, &g_data);
 	put_player(mlx);
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);

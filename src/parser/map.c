@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:13:51 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:27:43 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,6 @@ static bool	check_extension(char *str)
 		&& str[i - 4] == '.')
 		return (true);
 	return (false);
-}
-
-static int	find_map_start(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i][0] != '1')
-		i++;
-	return (i);
 }
 
 bool	parse_map(t_data *data, char *file)

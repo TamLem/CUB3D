@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:13:24 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:35:47 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	free_2d(char **arr)
 		free(arr);
 		arr = NULL;
 	}
+}
+
+int	find_map_start(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i][0] != '1')
+		i++;
+	return (i);
 }
 
 void	error_msg(char *msg, t_data *data)
