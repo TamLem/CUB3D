@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 14:47:29 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:47:24 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static bool	check_format(char **map)
 			|| ft_strlen(map[y]) != len)
 			return (false);
 	}
+	g_data.size.x = len;
+	g_data.size.y = y;
 	return (true);
 }
 

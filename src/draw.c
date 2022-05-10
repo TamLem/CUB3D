@@ -74,10 +74,10 @@ void	draw_map(mlx_image_t *img, t_data *data)
 	
 	map = data->map + find_map_start(data->map);
 	i = 0;
-	while (i < 44)
+	while (i < g_data.size.y)
 	{
 		j = 0;
-		while (j < 30)
+		while (j < g_data.size.x)
 		{
 			if (map[i][j] == '1')
 				draw_cell(img, j*CELL_WIDTH, i*CELL_HEIGHT, 0xFFFFFF);

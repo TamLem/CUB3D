@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:37:43 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 15:46:17 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,17 @@ typedef struct s_color
 	int	blue;
 }	t_color;
 
+typedef struct s_vec
+{
+	int	x;
+	int y;
+}	t_vec;
+
 typedef struct s_data
 {
 	mlx_t	*mlx;
 	char	**map;
+	t_vec	size;
 	char	**txt_paths;
 	t_color	c;
 	t_color	f;
