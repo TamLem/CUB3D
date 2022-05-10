@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:14:49 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 16:08:12 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,12 @@ bool	get_info(t_data *data)
 			|| !ft_strncmp(data->map[i], "C ", 2))
 			find_color_cf(data, data->map[i]);
 	}
-	i = 0;
-	while (data->txt_paths[i])
-		i++;
+	i = -1;
+	while (data->txt_paths[++i])
+	{
+		if (!access(data->txt_paths[i], R_OK)) // change as soon was we have textures
+			error_msg("Textures couldn't be loaded", data);
+	}
 	if (i != 4 || !check_colors(data))
 		return (false);
 	return (true);

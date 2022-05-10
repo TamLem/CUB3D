@@ -3,7 +3,7 @@
 mlx_image_t	*g_img;
 mlx_image_t *img_player;
 
-#define CELL_WIDTH 32
+#define CELL_WIDTH 16
 #define CELL_HEIGHT 16
 
 bool	isPointInFloor(int x, int y)
@@ -114,6 +114,5 @@ int init(void)
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, g_img);
 	mlx_terminate(mlx);
-
 	return (0);
 }
