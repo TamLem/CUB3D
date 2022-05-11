@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:53:59 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/11 14:03:39 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ enum e_error {
 
 # define WIDTH 1280
 # define HEIGHT 768
+# define PI 3.14159
+# define CELL_WIDTH 32
+# define CELL_HEIGHT 32
 
 typedef struct s_color
 {
@@ -43,16 +46,31 @@ typedef struct s_vec
 {
 	int	x;
 	int y;
+	int map_x0;
+	int map_y0;
 }	t_vec;
+
+typedef struct s_player
+{
+	int	x;
+	int y;
+	int height;
+	float angle;
+	float fov;
+}	t_player;
+
 
 typedef struct s_data
 {
-	mlx_t	*mlx;
-	char	**map;
-	char	**txt_paths;
-	t_vec	size;
-	t_color	c;
-	t_color	f;
+	mlx_t		*mlx;
+	mlx_image_t	*map_img;
+	mlx_image_t *player_img;
+	char		**map;
+	char		**txt_paths;
+	t_player	player;
+	t_vec		size;
+	t_color		c;
+	t_color		f;
 }	t_data;
 
 t_data	g_data;
@@ -61,13 +79,21 @@ t_data	g_data;
 bool	parse_map(t_data *data, char *file);
 bool	validate_map(char **map, t_data *data);
 bool	get_info(t_data *data);
+bool	get_player_info();
+
 
 // DRAW
 int init(void);
+void	draw_xy_rays(int x0, int y0);
+void	draw_cell(mlx_image_t *img, int x, int y, int color);
+
 
 // UTILS
 void	error_msg(char *msg, t_data *data);
 void	free_2d(char **arr);
 int		find_map_start(char **map);
+bool	isPointInFloor(int x, int y);
+int	create_trgb(int t, int r, int g, int b);
+
 
 #endif

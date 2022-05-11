@@ -1,1 +1,8 @@
 _MLX42
+*.o
+a.out
+cub3D
+map_simple.cub
+_MLX42
+a.out.dSYM/Contents/Info.plist
+a.out.dSYM/Contents/Resources/DWARF/a.out

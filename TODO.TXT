@@ -1,0 +1,4 @@
+TODO
+	- CHECK IF PLAYER EXISTS IN MAP
+	- get colors function
+	

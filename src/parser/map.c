@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:27:43 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/11 11:28:09 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ bool	parse_map(t_data *data, char *file)
 	data->c.red = -1;
 	data->c.blue = -1;
 	if (data->map && get_info(data)
-		&& (validate_map(data->map + find_map_start(data->map), data)))
+		&& (validate_map(data->map + find_map_start(data->map), data))  && get_player_info())
 		return (true);
 	return (false);
 }

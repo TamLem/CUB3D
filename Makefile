@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
+#    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/10 15:27:03 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/11 13:49:39 by tlemma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,11 @@ NAME	=	cub3D
 
 MLX		=	./_MLX42/libmlx42.a
 
-GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
+GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
 LIBFT	=	./inc/libft/
 
-SRC		=	./src/main.c ./src/draw.c $(shell find ./src/*/ -iname "*.c")
+SRC		=	$(shell find ./src/* -iname "*.c")
 
 OBJ		=	$(SRC:.c=.o)
 

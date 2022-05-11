@@ -1,49 +1,42 @@
 #include "../inc/cub3d.h"
 
-mlx_image_t	*g_img;
-mlx_image_t *img_player;
-
-#define CELL_WIDTH 16
-#define CELL_HEIGHT 16
-
 bool	isPointInFloor(int x, int y)
 {
-	int x_cell;
-	int y_cell;
+	int 	x_cell;
+	int 	y_cell;
 	char	**map;
 
 	map = g_data.map + find_map_start(g_data.map);
-	x_cell = x / CELL_WIDTH;
-	y_cell = y / CELL_HEIGHT;
-	printf("x: %d y: %d\n", x_cell, y_cell);
-	if (map[y_cell][x_cell] == '0')
-	{
-		printf("true\n");
-		return (true);
-	}
-	return (false);
+	x_cell = (x - g_data.size.map_x0) / CELL_WIDTH;
+	y_cell =(y - g_data.size.map_y0) / CELL_HEIGHT;
+	if (map[y_cell][x_cell] == '1')
+		return (false);
+	printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
+	return (true);
 }
 
 
 void	hook(void *param)
 {
-	mlx_t	*mlx;
+	mlx_t		*mlx;
+	mlx_image_t	*player_img;
 
+	player_img = g_data.player_img;
 	mlx = param;
 	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
 		mlx_close_window(param);
 	if (mlx_is_key_down(param, MLX_KEY_UP)
-		&& isPointInFloor(img_player->instances[0].x, img_player->instances[0].y - 5))
-		img_player->instances[0].y -= 5;
+		&& isPointInFloor(player_img->instances[0].x, player_img->instances[0].y - 5))
+		player_img->instances[0].y -= 5;
 	if (mlx_is_key_down(param, MLX_KEY_DOWN) 
-		&& isPointInFloor(img_player->instances[0].x, img_player->instances[0].y + 5))
-		img_player->instances[0].y += 5;
+		&& isPointInFloor(player_img->instances[0].x, player_img->instances[0].y + 5))
+		player_img->instances[0].y += 5;
 	if (mlx_is_key_down(param, MLX_KEY_LEFT) 
-		&& isPointInFloor(img_player->instances[0].x - 5, img_player->instances[0].y))
-		img_player->instances[0].x -= 5;
+		&& isPointInFloor(player_img->instances[0].x - 5, player_img->instances[0].y))
+		player_img->instances[0].x -= 5;
 	if (mlx_is_key_down(param, MLX_KEY_RIGHT)
-		&& isPointInFloor(img_player->instances[0].x + 5, img_player->instances[0].y))
-		img_player->instances[0].x += 5;
+		&& isPointInFloor(player_img->instances[0].x + 5, player_img->instances[0].y))
+		player_img->instances[0].x += 5;
 }
 
 
@@ -66,6 +59,11 @@ void	draw_cell(mlx_image_t *img, int x, int y, int color)
 	}
 }
 
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 void	draw_map(mlx_image_t *img, t_data *data)
 {
 	int	i;
@@ -80,9 +78,9 @@ void	draw_map(mlx_image_t *img, t_data *data)
 		while (j < g_data.size.x)
 		{
 			if (map[i][j] == '1')
-				draw_cell(img, j*CELL_WIDTH, i*CELL_HEIGHT, 0xFFFFFF);
-			if (map[i][j] == '0')
-				draw_cell(img, j*CELL_WIDTH, i*CELL_HEIGHT, 0);
+				draw_cell(img, j*CELL_WIDTH, i*CELL_HEIGHT, create_trgb(255, 255, 255, 255));
+			if (map[i][j] == '0' || ft_strchr("NESW", map[i][j]) != NULL)
+				draw_cell(img, j*CELL_WIDTH, i*CELL_HEIGHT, create_trgb(255, 50, 50, 50));
 			j++;
 		}
 		i++;
@@ -91,28 +89,41 @@ void	draw_map(mlx_image_t *img, t_data *data)
 
 
 
-void	put_player(void * mlx)
+void	put_player()
 {
-	img_player = mlx_new_image(mlx, 10, 10);
-	memset(img_player->pixels, 255, img_player->width * img_player->height * sizeof(int));
-	mlx_image_to_window(mlx, img_player, 100, 100);
+	mlx_t		*mlx;
+	mlx_image_t	*player_img;
+
+	mlx = g_data.mlx;
+	g_data.player_img = mlx_new_image(mlx, 10, 10);
+	player_img = g_data.player_img;
+	memset(player_img->pixels, 255, player_img->width * player_img->height * sizeof(int));
+	mlx_image_to_window(mlx, player_img, g_data.player.x + g_data.size.map_x0, g_data.player.y + g_data.size.map_y0);
+}
+
+void print_map_details()
+{
+	printf("map start: %d - %d\n map end: %d - %d\n", g_data.size.map_x0, g_data.size.map_x0 + g_data.size.x * CELL_WIDTH, g_data.size.map_y0, g_data.size.map_y0 + g_data.size.y * CELL_HEIGHT);
 }
 
 int init(void)
 {
-	void	*mlx;
-	void	*win;
+	void		*mlx;
 
-	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	g_data.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	mlx = g_data.mlx;
 	if (!mlx)
 		exit(1);
-	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	mlx_image_to_window(mlx, g_img, 0, 0);
-	draw_map(g_img, &g_data);
-	put_player(mlx);
+ 	print_map_details();
+	g_data.map_img = mlx_new_image(mlx, g_data.size.x * CELL_WIDTH, g_data.size.y * CELL_HEIGHT);
+	mlx_image_to_window(mlx, g_data.map_img, g_data.size.map_x0, g_data.size.map_y0);
+	draw_map(g_data.map_img, &g_data);
+	put_player();
+	// printf("playerx %d\nplayery%d\nmapx0 %d\nmapy0 %d\n",g_data.player.x, g_data.size.map_x0, g_data.player.y, g_data.size.map_y0);
+	draw_xy_rays(g_data.player.x, g_data.player.y);
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);
-	mlx_delete_image(mlx, g_img);
+	mlx_delete_image(mlx, g_data.map_img);
 	mlx_terminate(mlx);
 	return (0);
 }
