@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:47:24 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 17:23:47 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ static bool	check_chars(char **map)
 				|| map[y][x] == 'E' || map[y][x] == 'W')
 				player++;
 			if (!check_char(map[y][x]))
-				return (false);
+				error_msg("Invalid characters found! (N,S,E,W,1,0)", &g_data);
 		}	
 		x = -1;
 	}
 	if (player != 1)
-		return (false);
+		error_msg("You have to set 1 (!) spawnpoint. (N,S,E,W)", &g_data);		
 	return (true);
 }
 

@@ -103,7 +103,7 @@ int init(void)
 	void	*mlx;
 	void	*win;
 
-	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!mlx)
 		exit(1);
 	g_img = mlx_new_image(mlx, WIDTH, HEIGHT);

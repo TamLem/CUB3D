@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 15:35:47 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/10 17:26:28 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	find_map_start(char **map)
 	int	i;
 
 	i = 0;
-	while (map[i][0] != '1')
+	while (map[i] && map[i][0] != '1')
 		i++;
 	return (i);
 }
@@ -45,9 +45,9 @@ void	error_msg(char *msg, t_data *data)
 	if (data)
 	{
 		if (data->map)
-			free(data->map);
+			free_2d(data->map);
 		if (data->txt_paths)
-			free(data->txt_paths);
+			free_2d(data->txt_paths);
 	}
 	exit(-1);
 }
