@@ -6,7 +6,7 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/10 17:10:45 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/11 16:40:37 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=	cub3D
 
 MLX		=	./_MLX42/libmlx42.a
 
-GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
+GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
 LIBFT	=	./inc/libft/
 

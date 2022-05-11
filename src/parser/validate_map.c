@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 17:23:47 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/11 16:40:31 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ static bool	check_format(char **map)
 	}
 	g_data.size.x = len;
 	g_data.size.y = y;
+	g_data.size.map_x0 = (WIDTH - g_data.size.x * CELL_WIDTH) / 2;
+	g_data.size.map_y0 = (HEIGHT - g_data.size.y * CELL_HEIGHT) / 2;
+	printf("map x0: %d y0: %d\n", g_data.size.map_x0, g_data.size.map_y0);
 	return (true);
 }
 
