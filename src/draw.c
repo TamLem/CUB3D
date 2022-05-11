@@ -10,8 +10,10 @@ bool	isPointInFloor(int x, int y)
 	x_cell = (x - g_data.size.map_x0) / CELL_WIDTH;
 	y_cell =(y - g_data.size.map_y0) / CELL_HEIGHT;
 	if (map[y_cell][x_cell] == '1')
+	{
+		printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
 		return (false);
-	printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
+	}
 	return (true);
 }
 
@@ -103,6 +105,7 @@ void	put_player()
 
 void print_map_details()
 {
+	printf("player position x:%d,  y:%d\n", g_data.player.x, g_data.player.y);
 	printf("map start: %d - %d\n map end: %d - %d\n", g_data.size.map_x0, g_data.size.map_x0 + g_data.size.x * CELL_WIDTH, g_data.size.map_y0, g_data.size.map_y0 + g_data.size.y * CELL_HEIGHT);
 }
 
