@@ -5,7 +5,11 @@ bool	ray_checker(int x, int y)
 	int 	x_cell;
 	int 	y_cell;
 	char	**map;
-
+	double	dirX = -1;
+	double	dirY = 0;
+	double	planeX = 0, planeY = 0.66;
+	double	time = 0;
+	double	oldTime = 0;
 	map = g_data.map + find_map_start(g_data.map);
 	x_cell = x / CELL_WIDTH;
 	y_cell = y / CELL_HEIGHT;
