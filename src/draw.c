@@ -6,11 +6,12 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 16:46:38 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/11 16:46:39 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/15 19:44:58 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
 
 bool	isPointInFloor(int x, int y)
 {
@@ -29,30 +30,42 @@ bool	isPointInFloor(int x, int y)
 	return (true);
 }
 
+void	move_player(int x_dir, int y_dir)
+{
+	char		**map;
+	t_player	*player;
+
+	player = &g_data.player;
+	map = g_data.map + find_map_start(g_data.map);
+	if (map[((player->y + y_dir)) / 32][((player->x + x_dir)) / 32] != '1')
+	{
+		g_data.player_img->instances[0].y += y_dir;
+		player->y += y_dir;
+		g_data.player_img->instances[0].x += x_dir;
+		player->x += x_dir;
+	}
+}
 
 void	hook(void *param)
 {
 	mlx_t		*mlx;
 	mlx_image_t	*player_img;
+	int	px;
 
+	px = 2;
 	player_img = g_data.player_img;
 	mlx = param;
 	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
 		mlx_close_window(param);
-	if (mlx_is_key_down(param, MLX_KEY_UP)
-		&& isPointInFloor(player_img->instances[0].x, player_img->instances[0].y - 5))
-		player_img->instances[0].y -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_DOWN) 
-		&& isPointInFloor(player_img->instances[0].x, player_img->instances[0].y + 5))
-		player_img->instances[0].y += 5;
-	if (mlx_is_key_down(param, MLX_KEY_LEFT) 
-		&& isPointInFloor(player_img->instances[0].x - 5, player_img->instances[0].y))
-		player_img->instances[0].x -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_RIGHT)
-		&& isPointInFloor(player_img->instances[0].x + 5, player_img->instances[0].y))
-		player_img->instances[0].x += 5;
+	if (mlx_is_key_down(param, MLX_KEY_UP))
+		move_player(0, -px);
+	if (mlx_is_key_down(param, MLX_KEY_DOWN))
+		move_player(0, px);
+	if (mlx_is_key_down(param, MLX_KEY_LEFT) )
+		move_player(-px, 0);
+	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
+		move_player(px, 0);
 }
-
 
 void	draw_cell(mlx_image_t *img, int x, int y, int color)
 {
@@ -112,7 +125,7 @@ void	put_player()
 	g_data.player_img = mlx_new_image(mlx, 10, 10);
 	player_img = g_data.player_img;
 	memset(player_img->pixels, 255, player_img->width * player_img->height * sizeof(int));
-	mlx_image_to_window(mlx, player_img, g_data.player.x + g_data.size.map_x0, g_data.player.y + g_data.size.map_y0);
+	mlx_image_to_window(mlx, player_img, (g_data.player.x - 5) + g_data.size.map_x0, (g_data.player.y - 5) + g_data.size.map_y0);
 }
 
 void print_map_details()
@@ -135,7 +148,7 @@ int init(void)
 	draw_map(g_data.map_img, &g_data);
 	put_player();
 	// printf("playerx %d\nplayery%d\nmapx0 %d\nmapy0 %d\n",g_data.player.x, g_data.size.map_x0, g_data.player.y, g_data.size.map_y0);
-	draw_xy_rays(g_data.player.x, g_data.player.y);
+	// draw_xy_rays(g_data.player.x, g_data.player.y);
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, g_data.map_img);

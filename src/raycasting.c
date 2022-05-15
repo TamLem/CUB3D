@@ -13,7 +13,7 @@ bool	ray_checker(int x, int y)
 	map = g_data.map + find_map_start(g_data.map);
 	x_cell = x / CELL_WIDTH;
 	y_cell = y / CELL_HEIGHT;
-	printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
+	// printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
 	if (map[y_cell][x_cell] == '1')
 		return (false);
 	return (true);
@@ -29,7 +29,7 @@ void 	draw_xy_rays(int x0, int y0)
 	map_img = g_data.map_img;
 	while (ray_checker(x0, y0))
 	{
-		mlx_put_pixel(map_img, x0, y0, create_trgb(255, 255, 255, 0));
+		mlx_put_pixel(map_img, x0, y0, create_trgb(0, 255, 255, 255));
 
 		x0++;
 		y0++;
