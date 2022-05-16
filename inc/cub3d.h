@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/11 15:02:54 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/16 19:16:58 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,18 @@ typedef struct s_player
 {
 	int	x;
 	int y;
+	double	posX;
+	double  posY;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+	double	time;
+	double	oldTime;
 	int height;
 	float angle;
 	float fov;
 }	t_player;
-
 
 typedef struct s_data
 {
@@ -81,12 +88,12 @@ bool	validate_map(char **map, t_data *data);
 bool	get_info(t_data *data);
 bool	get_player_info();
 
-
 // DRAW
 int init(void);
 void	draw_xy_rays(int x0, int y0);
 void	draw_cell(mlx_image_t *img, int x, int y, int color);
 
+void	raycaster(void);
 
 // UTILS
 void	error_msg(char *msg, t_data *data);

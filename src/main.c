@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/15 19:37:29 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/16 20:29:55 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	main(int argc, char **argv)
 	}
 	else if (parse_map(&g_data, argv[1]))
 		init();
+		// raycaster();
 	return (0);
 }

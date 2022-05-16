@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 16:46:38 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/15 19:44:58 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/16 20:29:45 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "../../inc/cub3d.h"
 
 
-bool	isPointInFloor(int x, int y)
-{
-	int 	x_cell;
-	int 	y_cell;
-	char	**map;
+// bool	isPointInFloor(int x, int y)
+// {
+// 	int 	x_cell;
+// 	int 	y_cell;
+// 	char	**map;
 
-	map = g_data.map + find_map_start(g_data.map);
-	x_cell = (x - g_data.size.map_x0) / CELL_WIDTH;
-	y_cell =(y - g_data.size.map_y0) / CELL_HEIGHT;
-	if (map[y_cell][x_cell] == '1')
-	{
-		printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
-		return (false);
-	}
-	return (true);
-}
+// 	map = g_data.map + find_map_start(g_data.map);
+// 	x_cell = (x - g_data.size.map_x0) / CELL_WIDTH;
+// 	y_cell =(y - g_data.size.map_y0) / CELL_HEIGHT;
+// 	if (map[y_cell][x_cell] == '1')
+// 	{
+// 		printf("xpx: %d ypx: %d map[%d][%d]\n",x,y,y_cell, x_cell);
+// 		return (false);
+// 	}
+// 	return (true);
+// }
 
 void	move_player(int x_dir, int y_dir)
 {
@@ -73,7 +73,6 @@ void	draw_cell(mlx_image_t *img, int x, int y, int color)
 	int j;
 
 	i = 0;
-	//check for image boundaries
 	while (i < CELL_HEIGHT - 1)
 	{
 		j = 0;
@@ -114,8 +113,6 @@ void	draw_map(mlx_image_t *img, t_data *data)
 	}
 }
 
-
-
 void	put_player()
 {
 	mlx_t		*mlx;
@@ -143,12 +140,13 @@ int init(void)
 	if (!mlx)
 		exit(1);
  	print_map_details();
-	g_data.map_img = mlx_new_image(mlx, g_data.size.x * CELL_WIDTH, g_data.size.y * CELL_HEIGHT);
+	g_data.map_img = mlx_new_image(mlx, (g_data.size.x * CELL_WIDTH), (g_data.size.y * CELL_HEIGHT));
 	mlx_image_to_window(mlx, g_data.map_img, g_data.size.map_x0, g_data.size.map_y0);
 	draw_map(g_data.map_img, &g_data);
 	put_player();
 	// printf("playerx %d\nplayery%d\nmapx0 %d\nmapy0 %d\n",g_data.player.x, g_data.size.map_x0, g_data.player.y, g_data.size.map_y0);
 	// draw_xy_rays(g_data.player.x, g_data.player.y);
+	raycaster();
 	mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, g_data.map_img);
