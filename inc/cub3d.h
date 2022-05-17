@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/16 19:16:58 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/17 20:36:57 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ enum e_error {
 	mllc
 };
 
-# define WIDTH 1280
-# define HEIGHT 768
+# define WIDTH 640
+# define HEIGHT 480
 # define PI 3.14159
 # define CELL_WIDTH 32
 # define CELL_HEIGHT 32
@@ -52,8 +52,8 @@ typedef struct s_vec
 
 typedef struct s_player
 {
-	int	x;
-	int y;
+	double	x;
+	double y;
 	double	posX;
 	double  posY;
 	double	dirX;
@@ -67,11 +67,21 @@ typedef struct s_player
 	float fov;
 }	t_player;
 
+typedef struct s_window
+{
+	bool		enable;
+	void		*mlx;
+	mlx_image_t	*window;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+}	t_window;
+
 typedef struct s_data
 {
-	mlx_t		*mlx;
-	mlx_image_t	*map_img;
-	mlx_image_t *player_img;
+	// mlx_t		*mlx;
+	// mlx_image_t	*map_img;
+	// mlx_image_t *player_img;
 	char		**map;
 	char		**txt_paths;
 	t_player	player;
@@ -89,11 +99,14 @@ bool	get_info(t_data *data);
 bool	get_player_info();
 
 // DRAW
-int init(void);
-void	draw_xy_rays(int x0, int y0);
-void	draw_cell(mlx_image_t *img, int x, int y, int color);
-
+void	init_window(t_window *window);
+void	kill_window(t_window *window);
 void	raycaster(void);
+
+// int init(void);
+// void	draw_xy_rays(int x0, int y0);
+// void	draw_cell(mlx_image_t *img, int x, int y, int color);
+void	draw_line(mlx_image_t *win, int beginX, int beginY, int endX, int endY, int color);
 
 // UTILS
 void	error_msg(char *msg, t_data *data);

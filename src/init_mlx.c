@@ -1,25 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_mlx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/17 16:38:26 by jroth            ###   ########.fr       */
+/*   Created: 2022/05/17 16:31:39 by jroth             #+#    #+#             */
+/*   Updated: 2022/05/17 17:34:49 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		error_msg(
-			"Please execute with './cub3D path/to/map/MAPNAME.cub'.", &g_data);
-	}
-	else if (parse_map(&g_data, argv[1]))
-		raycaster();
-	return (0);
-}

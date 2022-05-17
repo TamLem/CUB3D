@@ -6,7 +6,7 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/16 15:31:12 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/17 17:03:25 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ		=	$(SRC:.c=.o)
 
 $(NAME): $(OBJ)
 	make -C $(LIBFT)
-	$(CC) -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
+	$(CC) -g -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
 
 clean:
 	rm -f $(shell find ./src/* -iname "*.o")

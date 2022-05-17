@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/16 16:10:44 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/17 21:44:43 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ bool get_player_info()
 			{
 				player->x = j * CELL_WIDTH;
 				player->y = i * CELL_HEIGHT;
-				// printf("map_char %c, player start x: %d, y: %d\n", map[i][j], player->x, player->y);
+				player->posX = j;
+				player->posY = j;
 				player->angle = get_angle(map[i][j]);
 				player->height = 100;
 				player->fov = PI / 3;

@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/16 20:51:16 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/17 21:56:00 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,38 @@ typedef struct s_raycaster
 	t_ray	ray;
 }	t_raycaster;
 
+void	set_loop(int x, t_raycaster *frame)
+{
+	t_ray	*ray;
+
+	frame->cameraX = 2 * x / (double) WIDTH - 1;
+	frame->rayDirX = frame->dirX + frame->planeX * frame->cameraX;
+	frame->rayDirY = frame->dirY + frame->planeY * frame->cameraX;
+	ray = &frame->ray;
+	if (frame->rayDirX == 0)
+		ray->deltaDistX = INFINITY;
+	else
+		ray->deltaDistX = fabs(1 / frame->rayDirX);
+	if (frame->rayDirY == 0)
+		ray->deltaDistY = INFINITY;
+	else
+		ray->deltaDistY = fabs(1 / frame->rayDirY);
+	ray->mapX = frame->posX;
+	ray->mapX = frame->posY;
+}
 
 void	init_frame(t_raycaster *frame)
 {
-	frame->posX = g_data.player.x / CELL_WIDTH;
-	frame->posY = g_data.player.y / CELL_HEIGHT;
+	frame->posX = g_data.player.posX;
+	frame->posY = g_data.player.posY;
 	frame->dirX = -1;
 	frame->dirY = 0;
 	frame->planeX = 0;
 	frame->planeY = 0.66;
-	frame->time = 0;
-	frame->oldTime = 0;
-	frame->cameraX = 0;
-	frame->rayDirX = 0;
-	frame->rayDirY = 0;
+	// frame->time = 0;
+	// frame->oldTime = 0;
 }
 
-void	set_ray(t_raycaster *frame)
-{
-	t_ray	*ray;
-
-	ray = &frame->ray;
-	ray->deltaDistX = fabs(1 / frame->rayDirX);
-	ray->deltaDistY = fabs(1 / frame->rayDirY);
-	ray->mapX = frame->posX;
-	ray->mapX = frame->posY;
-	
-}
 
 void	calc_step_and_sideDist(t_raycaster	*frame)
 {
@@ -102,7 +107,7 @@ void	calc_step_and_sideDist(t_raycaster	*frame)
     }
 }
 
-void	exec_dda(int i, char **map, t_raycaster *frame)
+void	exec_dda(char **map, t_raycaster *frame)
 {
 
 	t_ray	*ray;
@@ -115,52 +120,129 @@ void	exec_dda(int i, char **map, t_raycaster *frame)
       	if (ray->sideDistX < ray->sideDistY)
       	{
       		ray->sideDistX += ray->deltaDistX;
+			printf("DistX %f\n", ray->sideDistX);
+			printf("DeltaX %f\n", ray->deltaDistX);
       	  	ray->mapX += ray->stepX;
+			printf("MapX %d\n", ray->mapX);
       		ray->side = 0;
       	}
       	else
       	{
-      	  ray->sideDistY += ray->deltaDistY;
-      	  ray->mapY += ray->stepY;
-      	  ray->side = 1;
+      	  	ray->sideDistY += ray->deltaDistY;
+			printf("DistY %f\n", ray->sideDistY);
+			printf("DeltaY %f\n", ray->deltaDistY);
+      	  	ray->mapY += ray->stepY;
+			printf("MapY %d\n", ray->mapY);
+      	  	ray->side = 1;
       	}
-		mlx_put_pixel(g_data.map_img, ray->mapX * CELL_WIDTH, ray->mapY * CELL_HEIGHT, 0xFFFFFFFF);
-      	//Check if ray has hit a wall
-		// printf("ray no: %d: map[%d][%d] == '%c'\n",i, ray->mapY, ray->mapX, map[ray->mapY][ray->mapX]);
-		// printf("%d....\nSX: %f SY: %f \nmapX: %d mapY: %d \ndeltaX: %f deltaY: %f\n",i, ray->sideDistX, ray->sideDistY, ray->mapX, ray->mapY, ray->deltaDistX, ray->deltaDistX);
-		if (map[ray->mapX][ray->mapY] == '1')
-		{
-			mlx_put_pixel(g_data.map_img, ray->mapX * CELL_WIDTH, ray->mapY * CELL_HEIGHT, 0xFF00FF00);
+      	// Check if ray has hit a wall
+		if (map[ray->mapX][ray->mapY] > '0')
 			ray->hit = 1;
-			printf("%d...\nY: %d\nX: %d\n",i, ray->mapY, ray->mapX);
-			ray->mapX = (int) g_data.player.posX;
-			ray->mapY = (int) g_data.player.posY;
-		}
     }
 	if (ray->side == 0)
 		ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
     else
 		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY);
-	// printf("%d:\t%f - %f = %f\n", i, ray->sideDistX, ray->deltaDistX, ray->perpWallDist);
+} 
+
+// void draw_vert_line(t_window *window, int x, int beginY, int endY, int color)
+// {
+// 	int line;
+
+// 	line = window->lineHeight;
+// 	while (line)
+// 	{
+// 		mlx_put_pixel(window->window, x, pixelY, 0xFFFFFFFF);
+// 	   	--line;
+// 	}
+// }
+
+void	hook(void *param)
+{
+	t_window	*window;
+
+	window = param;
+	if (mlx_is_key_down(window->mlx, MLX_KEY_ESCAPE))
+	{
+		window->enable = false;
+		mlx_close_window(window->mlx);
+	}
+}
+
+void	kill_window(t_window *window)
+{
+	mlx_delete_image(window->mlx, window->window);
+	mlx_terminate(window->mlx);
+}
+
+void	init_window(t_window *window)
+{
+	window->enable = true;
+	window->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D!", false);
+	if (!window->mlx)
+		exit(-1);
+	window->window = mlx_new_image(window->mlx, WIDTH, HEIGHT);
+	mlx_image_to_window(window->mlx, window->window, 0, 0);
+	mlx_loop_hook(window->mlx, &hook, window);	
+}
+
+void	draw_window(int x, t_window *window, t_raycaster *frame)
+{
+	int	h;
+	h = HEIGHT;
+    //Calculate height of line to draw on screen
+	if (frame->ray.perpWallDist > 0)
+    	window->lineHeight = (int) (h / frame->ray.perpWallDist);
+	else
+		window->lineHeight = 0;
+    //calculate lowest and highest pixel to fill in current stripe
+    window->drawStart = -(window->lineHeight) / 2 + h / 2;
+    if (window->drawStart < 0)
+		window->drawStart = 0;
+    window->drawEnd = window->lineHeight / 2 + h / 2;
+    if (window->drawEnd >= h)
+		window->drawEnd = h - 1;
+	// draw_line(window->window, window->drawStart, , window->drawStart, window->drawEnd, 0xFFFFFFFF);
+	// printf("%d -> Start: %d End: %d linheight: %d\n", x, window->drawStart, window->drawEnd, window->lineHeight);
+	// void	draw_line_vert(t_window *window, int x, int color)
+	
+	// while (window->drawStart < window->drawEnd)
+	// 	mlx_put_pixel(window->window, x, window->drawStart++, 0xFFFFFFFF);
+	while (window->lineHeight--)
+	{
+		if (frame->ray.side == 0)
+			mlx_put_pixel(window->window, x, window->drawStart++, 0xFFFFFFFF);
+		else
+			mlx_put_pixel(window->window, x, window->drawStart++, 0xAAFFFFFF);
+	}	
+		
 }
 
 void	raycaster(void)
 {
 	t_raycaster	frame;
-	t_ray	ray;
+	t_window	window;
 
+	init_window(&window);
 	init_frame(&frame);
 	int x = -1;
-	int w = 45;
-	// while (true)
-	// {
-		while (++x < w)
+	printf("x:%f y:%f\n", frame.posX, frame.posY);
+	while (window.enable == true)
+	{
+		while (++x < WIDTH)
 		{
-			frame.cameraX = 2 * x / (double) w - 1;
-			frame.rayDirX = frame.dirX + frame.planeX * frame.cameraX;
-			frame.rayDirY = frame.dirY + frame.planeY * frame.cameraX;
-			set_ray(&frame);
+			set_loop(x, &frame);
 			calc_step_and_sideDist(&frame);
-			exec_dda(x, g_data.map + find_map_start(g_data.map), &frame);
+			exec_dda(g_data.map + find_map_start(g_data.map), &frame);
+			draw_window(x, &window, &frame);
+			// double oldDirX = frame.dirX;
+      		// frame.dirX = frame.dirX * cos(-0.2) - frame.dirY * sin(-0.2);
+      		// frame.dirY = oldDirX * sin(-0.2) + frame.dirY * cos(-0.2);
+      		// double oldPlaneX = frame.planeX;
+      		// frame.planeX = frame.planeX * cos(-0.2) - frame.planeY * sin(-0.2);
+      		// frame.planeY = oldPlaneX * sin(-0.2) + frame.planeY * cos(-0.2);
 		}
+		usleep(500);
+		mlx_loop(window.mlx);
+	}
 }
