@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/17 21:44:43 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/18 15:19:02 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,48 +98,46 @@ bool	get_info(t_data *data)
 	return (true);
 }
 
-float get_angle(char angle)
-{
-	if (angle == 'N')
-		return(0.5 * PI);
-	if (angle == 'E')
-		return(0);
-	if (angle == 'S')
-		return(1.5 * PI);
-	else
-		return(PI);
-}
+// float get_angle(char angle)
+// {
+// 	if (angle == 'N')
+// 		return(0.5 * PI);
+// 	if (angle == 'E')
+// 		return(0);
+// 	if (angle == 'S')
+// 		return(1.5 * PI);
+// 	else
+// 		return(PI);
+// }
 
-bool get_player_info()
-{
-	int			i;
-	int			j;
-	char 		**map;
-	t_player	*player;
+// bool get_player_info(t_data *data)
+// {
+// 	int			i;
+// 	int			j;
+// 	char 		**map;
+// 	t_player	*player;
 
-	i = 0;
-	map = g_data.map + find_map_start(g_data.map);
-	player = &g_data.player;
-	while (i < g_data.size.y)
-	{
-		j = 0;
-		while (j < g_data.size.x)
-		{
-			if (ft_strchr("NESW", map[i][j]) != NULL)
-			{
-				player->x = j * CELL_WIDTH;
-				player->y = i * CELL_HEIGHT;
-				player->posX = j;
-				player->posY = j;
-				player->angle = get_angle(map[i][j]);
-				player->height = 100;
-				player->fov = PI / 3;
-				return (true);
-			}
-			j++;
-		}
-		i++;
-	}
-	printf("Player not found in map\n");
-	return (false);
-}
+// 	i = 0;
+// 	map = data->map + find_map_start(data->map);
+// 	player = &data->player;
+// 	while (i < data->size.y)
+// 	{
+// 		j = 0;
+// 		while (j < data->size.x)
+// 		{
+// 			if (ft_strchr("NESW", map[i][j]) != NULL)
+// 			{
+// 				player->x = j * CELL_WIDTH;
+// 				player->y = i * CELL_HEIGHT;
+// 				player->posX = j;
+// 				player->posY = i;
+// 				// player->angle = get_angle(map[i][j]);
+// 				return (true);
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	printf("Player not found in map\n");
+// 	return (false);
+// }

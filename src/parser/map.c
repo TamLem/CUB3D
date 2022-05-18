@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/17 21:43:47 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/18 15:19:44 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ bool	parse_map(t_data *data, char *file)
 	data->c.green = -1;
 	data->c.red = -1;
 	data->c.blue = -1;
-	if (data->map && get_info(data)
-		&& (validate_map(data->map + find_map_start(data->map), data) && get_player_info()))
+	if (data->map
+		&& (validate_map(data->map + find_map_start(data->map), data)))
 		return (true);
 	return (false);
+	// get_info(data)
 }
