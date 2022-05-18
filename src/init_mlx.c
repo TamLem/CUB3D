@@ -50,8 +50,7 @@ void	hook(void *param)
 // 		g_data.player_img->instances[0].x += x_dir;
 // 		player->x += x_dir;
 // 	}
-// }
-
+	move(window->mlx, data);
 	if (mlx_is_key_down(window->mlx, MLX_KEY_DOWN))
 	{
       	if(data->map[(int)(frame->posX - (frame->dirX * moveSpeed))][(int)frame->posY] == '0')

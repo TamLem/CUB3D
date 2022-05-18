@@ -34,6 +34,7 @@ enum e_error {
 # define PI 3.14159
 # define CELL_WIDTH 32
 # define CELL_HEIGHT 32
+# define MOVE_SPEED 0.1
 
 typedef struct s_color
 {
@@ -120,6 +121,8 @@ void	kill_window(t_window *window);
 void	raycaster(t_data *data);
 void	hook(void *param);
 void	render(void *param);
+void	move(mlx_t *mlx, t_data *data);
+
 // int init(void);
 // void	draw_xy_rays(int x0, int y0);
 // void	draw_cell(mlx_image_t *img, int x, int y, int color);
