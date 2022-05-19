@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/18 15:19:02 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 11:47:00 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static void	find_color_cf(t_data *data, char *str)
 
 static void	set_texture_path(t_data *data, char *str)
 {
-	if (!data->txt_paths)
-		data->txt_paths = malloc(sizeof(char *) * 5);
+	// if (!data->txt_paths)
+	// 	data->txt_paths = malloc(sizeof(char *) * 5);
 	if (!ft_strncmp(str, "NO ", 3))
 		data->txt_paths[0] = ft_strdup(str + 3);
 	if (!ft_strncmp(str, "SO ", 3))

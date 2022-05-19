@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/18 17:15:19 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 16:46:03 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,35 @@ void	init_window(t_data *data)
 	mlx_loop_hook(window->mlx, &hook, data);	
 }
 
-void	draw_window(int x, t_window *window, t_raycaster *frame)
+void	draw_texture(t_data *data, int x, int y, int length)
+{
+	int	i;
+	unsigned int	color;
+
+	i = 0;
+	while(i < length)
+	{
+		color = *(data->textures[0]->pixels + y * 64 + x * (data->textures[0]->bytes_per_pixel / 8));
+		mlx_put_pixel(data->window.window, x, y, color);
+		y++;
+		i++;
+	}
+	// if (x > 64)
+	// 	x = 0;
+	// if (y > 64)
+	// 	y = 0;
+	// printf("here\n");
+}
+
+void	draw_window(int x, t_data *data, t_raycaster *frame)
 {
     //Calculate height of line to draw on screen
 	int	lineHeight;
 	int	drawStart;
 	int	drawEnd;
+	t_window *window;
 
+	window = &data->window;
 	lineHeight = 0;
 	drawStart = 0;
 	drawEnd = 0;
@@ -156,34 +178,30 @@ void	draw_window(int x, t_window *window, t_raycaster *frame)
     if (drawEnd >= HEIGHT)
 		drawEnd = HEIGHT - 1;
 	int i = 0;
+	int j = x;
+	draw_texture(data, x, drawStart, lineHeight);
 	while (i < HEIGHT)
 	{
 		if (i >= drawStart && i <= drawEnd)
 		{
-			mlx_put_pixel(window->window, x, i, 0x00000000);
-			if (frame->ray.side == 0)
-				mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
-			else
-				mlx_put_pixel(window->window, x, drawStart++, 0xAAFFFFFF);
+
+			// mlx_put_pixel(window->window, x, i, 0x00000000);
+			// if (frame->ray.side == 0)
+			// 	mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
+			// else
+			// 	mlx_put_pixel(window->window, x, drawStart++, 0xAAFFFFFF);
+			// draw_texture(data, j, i);
 
 		}
 		else if (i < drawStart)
 			mlx_put_pixel(window->window, x, i, 0x00000000);
 		else
+		{
 			mlx_put_pixel(window->window, x, i, 0x00000000);
+		}
 		i++;
 	}
 }
-
-// int	mlx_hooks(t_vars *vars)
-// {
-// 	mlx_hook(vars->mlx_vars->win_ptr, 17, 0, &exit_hook, vars);
-// 	mlx_hook(vars->mlx_vars->win_ptr, 2, 0, &on_key_down, vars);
-// 	mlx_hook(vars->mlx_vars->win_ptr, 3, 0, &on_key_up, vars);
-// 	mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars);
-// 	mlx_loop(vars->mlx_vars->mlx_ptr);
-// 	return (0);
-// }
 
 void	render(void *param)
 {
@@ -200,7 +218,7 @@ void	render(void *param)
 		set_loop(x, frame);
 		calc_step_and_sideDist(frame);
 		exec_dda(data->map + find_map_start(data->map), frame);
-		draw_window(x, &data->window, frame);
+		draw_window(x, data, frame);
 		x++;
 	}
 }
@@ -213,6 +231,7 @@ void	raycaster(t_data *data)
 	frame = &data->window.frame;
 	init_window(data);
 	init_frame(data, frame);
+	load_texture(data);
 	printf("x:%f y:%f\n", frame->posX, frame->posY);
 	printf("player[%d][%d]\n", data->player.posX, data->player.posY);
 	while (data->window.enable == true)

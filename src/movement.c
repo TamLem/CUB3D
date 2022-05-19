@@ -69,5 +69,5 @@ void	rotate(t_data *data)
 	frame->oldPlaneX = frame->planeX;
 	frame->planeX = frame->planeX * cos(-rotSpeed) - frame->planeY * sin(-rotSpeed);
 	frame->planeY = frame->oldPlaneX * sin(-rotSpeed) + frame->planeY * cos(-rotSpeed);
-	printf("oldDirX: %f newDirX:%f\n", frame->oldDirX, frame->dirX);
+	// printf("oldDirX: %f newDirX:%f\n", frame->oldDirX, frame->dirX);
 }

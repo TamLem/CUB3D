@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/19 11:24:24 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/19 16:15:45 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ typedef struct s_window
 typedef struct s_data
 {
 	char		**map;
-	char		**txt_paths;
+	char		*txt_paths[5];
+	mlx_texture_t *textures[5];
 	t_window	window;
 	t_player	player;
 	t_color		c;
@@ -122,7 +123,9 @@ void	raycaster(t_data *data);
 void	hook(void *param);
 void	render(void *param);
 void	move(t_data *data);
-void	rotate_dir(t_data *data);
+void	rotate(t_data *data);
+void	load_texture(t_data *data);
+
 
 
 // int init(void);
@@ -135,7 +138,7 @@ void	error_msg(char *msg, t_data *data);
 void	free_2d(char **arr);
 int		find_map_start(char **map);
 bool	isPointInFloor(int x, int y);
-int	create_trgb(int t, int r, int g, int b);
+int		create_trgb(int t, int r, int g, int b);
 
 
 #endif
