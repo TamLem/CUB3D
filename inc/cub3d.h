@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/19 11:24:24 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/19 17:35:39 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,19 @@ enum e_error {
 	mllc
 };
 
+enum e_direction {
+	north,
+	south,
+	east,
+	west
+};
+
 # define WIDTH 1280
 # define HEIGHT 768
 # define PI 3.14159
 # define CELL_WIDTH 32
 # define CELL_HEIGHT 32
-# define MOVE_SPEED 0.1
+# define MOVE_SPEED 0.05
 
 typedef struct s_color
 {
@@ -97,6 +104,9 @@ typedef struct s_window
 	bool		enable;
 	void		*mlx;
 	mlx_image_t	*window;
+	mlx_image_t textures[4];
+	int			c;
+	int			f;
 	t_raycaster	frame;
 }	t_window;
 
@@ -106,8 +116,6 @@ typedef struct s_data
 	char		**txt_paths;
 	t_window	window;
 	t_player	player;
-	t_color		c;
-	t_color		f;
 }	t_data;
 
 // PARSER
@@ -123,8 +131,8 @@ void	hook(void *param);
 void	render(void *param);
 void	move(t_data *data);
 void	rotate_dir(t_data *data);
-
-
+void	rotate(t_data *data);
+int		create_trgb(int t, int r, int g, int b);
 // int init(void);
 // void	draw_xy_rays(int x0, int y0);
 // void	draw_cell(mlx_image_t *img, int x, int y, int color);

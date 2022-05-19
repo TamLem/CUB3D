@@ -86,10 +86,7 @@
 // 	}
 // }
 
-// int	create_trgb(int t, int r, int g, int b)
-// {
-// 	return (t << 24 | r << 16 | g << 8 | b);
-// }
+
 
 // void	draw_map(mlx_image_t *img, t_data *data)
 // {

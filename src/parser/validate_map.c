@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/18 17:13:45 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 19:38:56 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,29 @@ static bool	check_char(const char c)
 {
 	if (c == '1' || c == '0'
 		|| c == 'N' || c == 'S'
-		|| c == 'E' || c == 'W')
+		|| c == 'E' || c == 'W' || c == ' ')
 		return (true);
 	return (false);
 }
 
 static bool	check_format(char **map)
 {
-	int	len;
 	int	x;
 	int	y;
 
 	x = -1;
 	y = -1;
-	len = ft_strlen(map[y + 1]);
 	while (map[++y])
 	{	
-		if (y == 0 || !map[y + 1])
+		while (map[y][++x])
 		{
-			while (map[y][++x])
-			{
-				if (map[y][x] != '1')
-					return (false);
-			}
-			x = -1;
-		}	
-		if (map[y][0] != '1' || map[y][len - 1] != '1'
-			|| ft_strlen(map[y]) != len)
-			return (false);
+			if ((map[y][x] == '0' && map[y][x + 1] && map[y][x + 1] == ' ')
+				|| (map[y][x] == '0' && map[y][x - 1] && map[y][x - 1] == ' ')
+				|| (map[y][x] == '0' && map[y + 1][x] && map[y + 1][x] == ' ')
+				|| (map[y][x] == '0' && map[y - 1][x] && map[y - 1][x] == ' '))
+				return (false);
+		}
+		x = -1;	
 	}
 	return (true);
 }
@@ -51,27 +46,28 @@ static bool	check_format(char **map)
 static bool	check_chars(t_data *data, char **map)
 {
 	int	player;
-	int	x;
-	int	y;
+	int	i;
+	int	k;
 
-	x = -1;
-	y = -1;
+	i = -1;
+	k = -1;
 	player = 0;
-	while (map[++y])
+	while (map[++k])
 	{
-		while (map[y][++x])
+		while (map[k][++i])
 		{
-			if (map[y][x] == 'N' || map[y][x] == 'S'
-				|| map[y][x] == 'E' || map[y][x] == 'W')
+			if (map[k][i] == 'N' || map[k][i] == 'S'
+				|| map[k][i] == 'E' || map[k][i] == 'W')
 			{
+				map[k][i] = '0';
 				player++;
-				data->player.posX = x;
-				data->player.posY = y;
+				data->player.posX = k;
+				data->player.posY = i;
 			}
-			if (!check_char(map[y][x]))
+			if (!check_char(map[k][i]))
 				error_msg("Invalid characters found! (N,S,E,W,1,0)", data);
 		}	
-		x = -1;
+		i = -1;
 	}
 	if (player != 1)
 		error_msg("You have to set 1 (!) spawnpoint. (N,S,E,W)", data);	

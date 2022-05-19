@@ -6,33 +6,17 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/18 15:19:02 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 17:59:41 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-static	bool	check_colors(t_data *data)
-{
-	t_color	c;
-	t_color	f;
-
-	c = data->c;
-	f = data->f;
-	if ((f.red > -1 && f.green > -1 && f.blue > -1
-			&& c.red > -1 && c.green > -1 && c.blue > -1)
-		&& (f.red < 256 && f.green < 256 && f.blue < 256
-			&& c.red < 256 && c.green < 256 && c.blue < 256))
-		return (true);
-	error_msg("Wrong color Values! (0-255)", data);
-	return (false);
-}
-
 static void	find_color_cf(t_data *data, char *str)
 {
 	char	**colors;
 	int		i;
-
+	t_color	color;
 	i = 0;
 	colors = ft_split(str + 2, ',');
 	while (colors[i])
@@ -42,25 +26,23 @@ static void	find_color_cf(t_data *data, char *str)
 		free_2d(colors);
 		error_msg("Wrong color format! 'C/F R,G,B'", data);
 	}
-	if (str[0] == 'C')
-	{
-		data->c.red = ft_atoi(colors[0]);
-		data->c.green = ft_atoi(colors[1]);
-		data->c.blue = ft_atoi(colors[2]);
-	}
+	color.red = ft_atoi(colors[0]);
+	color.green = ft_atoi(colors[1]);
+	color.blue = ft_atoi(colors[2]);
+	if ((color.red < 0 || color.red > 255)
+		|| (color.green < 0 || color.green > 255)
+		|| (color.blue < 0 || color.blue > 255))
+		error_msg("Please use RBG values from 0-255!", data);
 	if (str[0] == 'F')
-	{
-		data->f.red = ft_atoi(colors[0]);
-		data->f.green = ft_atoi(colors[1]);
-		data->f.blue = ft_atoi(colors[2]);
-	}
+		data->window.f = create_trgb(255, color.red, color.green, color.blue);
+	else if (str[0] == 'C')
+		data->window.c = create_trgb(255, color.red, color.green, color.blue);
 	free_2d(colors);
 }
 
 static void	set_texture_path(t_data *data, char *str)
 {
-	if (!data->txt_paths)
-		data->txt_paths = malloc(sizeof(char *) * 5);
+
 	if (!ft_strncmp(str, "NO ", 3))
 		data->txt_paths[0] = ft_strdup(str + 3);
 	if (!ft_strncmp(str, "SO ", 3))
@@ -75,6 +57,9 @@ bool	get_info(t_data *data)
 {
 	int	i;
 
+	data->txt_paths = malloc(sizeof(char *) * 5);
+	if (!data->txt_paths)
+		error_msg("Malloc Error!", data);
 	i = -1;
 	while (data->map[++i])
 	{
@@ -87,17 +72,15 @@ bool	get_info(t_data *data)
 			|| !ft_strncmp(data->map[i], "C ", 2))
 			find_color_cf(data, data->map[i]);
 	}
-	i = -1;
-	while (data->txt_paths[++i])
+	i = 0;
+	while (i < 4)
 	{
-		if (!access(data->txt_paths[i], R_OK)) // change as soon was we have textures
-			error_msg("Textures couldn't be loaded", data);
+		if (!data->txt_paths[i++])
+			error_msg("Wrong number of Textures!", data);
 	}
-	if (i != 4 || !check_colors(data))
-		return (false);
 	return (true);
 }
-
+//  || !check_colors(data)
 // float get_angle(char angle)
 // {
 // 	if (angle == 'N')

@@ -24,7 +24,7 @@ void	move(t_data *data)
 	mlx = data->window.mlx;
 	dirX = data->window.frame.dirX;
 	dirY = data->window.frame.dirY;
-	// printf("dir x: %f, dir y %f\n", dirX, dirY);
+// printf("x:%f y:%f\n", data->window.frame.posX, data->window.frame.posY);
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		move_player(dirY, -dirX, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
@@ -47,7 +47,7 @@ void	rotate_dir(t_data *data)
 	frame->dirY = frame->oldDirX * sin(-rotSpeed) + frame->dirY * cos(-rotSpeed);
 	frame->planeX = frame->planeX * cos(-rotSpeed) - frame->planeY * sin(-rotSpeed);
 	frame->planeY = frame->oldPlaneX * sin(-rotSpeed) + frame->planeY * cos(-rotSpeed);
-	printf("oldDirX: %f newDirX:%f\n", frame->oldDirX, frame->dirX);
+	// printf("oldDirX: %f newDirX:%f\n", frame->oldDirX, frame->dirX);
 }
 
 
@@ -69,5 +69,4 @@ void	rotate(t_data *data)
 	frame->oldPlaneX = frame->planeX;
 	frame->planeX = frame->planeX * cos(-rotSpeed) - frame->planeY * sin(-rotSpeed);
 	frame->planeY = frame->oldPlaneX * sin(-rotSpeed) + frame->planeY * cos(-rotSpeed);
-	printf("oldDirX: %f newDirX:%f\n", frame->oldDirX, frame->dirX);
 }

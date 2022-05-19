@@ -6,11 +6,16 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/10 17:26:28 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 17:13:42 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
 
 void	free_2d(char **arr)
 {
@@ -44,10 +49,10 @@ void	error_msg(char *msg, t_data *data)
 	printf("ERROR!\n%s\n", msg);
 	if (data)
 	{
-		if (data->map)
-			free_2d(data->map);
-		if (data->txt_paths)
-			free_2d(data->txt_paths);
+		// if (data->map)
+		// // 	free_2d(data->map);
+		// if (data->txt_paths)
+		// 	free_2d(data->txt_paths);
 	}
 	exit(-1);
 }

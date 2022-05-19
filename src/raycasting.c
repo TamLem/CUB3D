@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/18 17:15:19 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 19:29:42 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	set_loop(int x, t_raycaster *frame)
 
 void	init_frame(t_data *data, t_raycaster *frame)
 {
-	frame->posX = data->player.posX;
-	frame->posY = data->player.posY;
+	frame->posX = data->player.posX + 0.5;
+	frame->posY = data->player.posY + 0.5;
+	printf("%f, %f\n", frame->posX, frame->posY);
 	frame->dirX = -1;
 	frame->dirY = 0;
 	frame->planeX = 0;
@@ -93,14 +94,12 @@ void	exec_dda(char **map, t_raycaster *frame)
       	if (ray->sideDistX < ray->sideDistY)
       	{
       		ray->sideDistX += ray->deltaDistX;
-
       	  	ray->mapX += ray->stepX;
       		ray->side = 0;
       	}
       	else
       	{
       	  	ray->sideDistY += ray->deltaDistY;
-
       	  	ray->mapY += ray->stepY;
       	  	ray->side = 1;
       	}
@@ -160,7 +159,6 @@ void	draw_window(int x, t_window *window, t_raycaster *frame)
 	{
 		if (i >= drawStart && i <= drawEnd)
 		{
-			mlx_put_pixel(window->window, x, i, 0x00000000);
 			if (frame->ray.side == 0)
 				mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
 			else
@@ -168,9 +166,9 @@ void	draw_window(int x, t_window *window, t_raycaster *frame)
 
 		}
 		else if (i < drawStart)
-			mlx_put_pixel(window->window, x, i, 0x00000000);
+			mlx_put_pixel(window->window, x, i, window->f);
 		else
-			mlx_put_pixel(window->window, x, i, 0x00000000);
+			mlx_put_pixel(window->window, x, i, window->c);
 		i++;
 	}
 }
@@ -217,7 +215,6 @@ void	raycaster(t_data *data)
 	printf("player[%d][%d]\n", data->player.posX, data->player.posY);
 	while (data->window.enable == true)
 	{
-		// render(data);
 		mlx_loop_hook(data->window.mlx, &render, (data));
 		mlx_loop(data->window.mlx);
 	}
