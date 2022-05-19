@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/18 16:44:48 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/19 11:24:24 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ void	kill_window(t_window *window);
 void	raycaster(t_data *data);
 void	hook(void *param);
 void	render(void *param);
-void	move(mlx_t *mlx, t_data *data);
+void	move(t_data *data);
+void	rotate_dir(t_data *data);
+
 
 // int init(void);
 // void	draw_xy_rays(int x0, int y0);
