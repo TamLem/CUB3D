@@ -1,16 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movement.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/20 17:03:56 by jroth             #+#    #+#             */
+/*   Updated: 2022/05/20 17:09:44 by jroth            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 void	move_player(float move_dirX, float move_dirY, t_data *data)
 {
-    t_raycaster	*frame;
-	char		**map;
+	t_raycaster		*frame;
+	char			**map;
 
-    frame = &data->window.frame;
-	map = data->map + find_map_start(data->map);
-	// printf("x_cell: %d, y_cell %d, posX %f, posY %f\n", x_cell, y_cell, frame->posX, frame->posY);
-	if(map[(int)(frame->posX + move_dirX * MOVE_SPEED)][(int)frame->posY] == '0')
+	frame = &data->window.frame;
+	map = data->map;
+	if (map[(int)(frame->posX + move_dirX * MOVE_SPEED)][(int)frame->posY] == '0')
 		frame->posX += move_dirX * MOVE_SPEED;
-	if(map[(int)(frame->posX)][(int)(frame->posY + move_dirY * MOVE_SPEED)] == '0')
+	if (map[(int)(frame->posX)][(int)(frame->posY + move_dirY * MOVE_SPEED)] == '0')
 		frame->posY += move_dirY * MOVE_SPEED;
 }
 
@@ -24,7 +35,8 @@ void	move(t_data *data)
 	mlx = data->window.mlx;
 	dirX = data->window.frame.dirX;
 	dirY = data->window.frame.dirY;
-// printf("x:%f y:%f\n", data->window.frame.posX, data->window.frame.posY);
+	t_raycaster *frame;
+	frame = &data->window.frame;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		move_player(dirY, -dirX, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
@@ -47,9 +59,7 @@ void	rotate_dir(t_data *data)
 	frame->dirY = frame->oldDirX * sin(-rotSpeed) + frame->dirY * cos(-rotSpeed);
 	frame->planeX = frame->planeX * cos(-rotSpeed) - frame->planeY * sin(-rotSpeed);
 	frame->planeY = frame->oldPlaneX * sin(-rotSpeed) + frame->planeY * cos(-rotSpeed);
-	// printf("oldDirX: %f newDirX:%f\n", frame->oldDirX, frame->dirX);
 }
-
 
 void	rotate(t_data *data)
 {

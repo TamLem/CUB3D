@@ -6,7 +6,7 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/02 16:22:22 by jroth             #+#    #+#              #
-#    Updated: 2022/04/18 16:59:16 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/20 17:14:10 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ SRC = 	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strle
 BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
 $(NAME): $(SRC)
-	@gcc -Wall -Werror -Wextra -c $(SRC)
-	@ar -rcs $(NAME) $(SRC:.c=.o)
+	@cc -Wall -Werror -Wextra -c $(SRC)
+	ar -rcs $(NAME) $(SRC:.c=.o)
 	@make clean
 
 all: $(NAME) 

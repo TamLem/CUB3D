@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/19 17:59:41 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 17:04:29 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	find_color_cf(t_data *data, char *str)
 	char	**colors;
 	int		i;
 	t_color	color;
+
 	i = 0;
 	colors = ft_split(str + 2, ',');
 	while (colors[i])
@@ -42,7 +43,6 @@ static void	find_color_cf(t_data *data, char *str)
 
 static void	set_texture_path(t_data *data, char *str)
 {
-
 	if (!ft_strncmp(str, "NO ", 3))
 		data->txt_paths[0] = ft_strdup(str + 3);
 	if (!ft_strncmp(str, "SO ", 3))
@@ -72,55 +72,6 @@ bool	get_info(t_data *data)
 			|| !ft_strncmp(data->map[i], "C ", 2))
 			find_color_cf(data, data->map[i]);
 	}
-	i = 0;
-	while (i < 4)
-	{
-		if (!data->txt_paths[i++])
-			error_msg("Wrong number of Textures!", data);
-	}
+	find_map_start(&data->map);
 	return (true);
 }
-//  || !check_colors(data)
-// float get_angle(char angle)
-// {
-// 	if (angle == 'N')
-// 		return(0.5 * PI);
-// 	if (angle == 'E')
-// 		return(0);
-// 	if (angle == 'S')
-// 		return(1.5 * PI);
-// 	else
-// 		return(PI);
-// }
-
-// bool get_player_info(t_data *data)
-// {
-// 	int			i;
-// 	int			j;
-// 	char 		**map;
-// 	t_player	*player;
-
-// 	i = 0;
-// 	map = data->map + find_map_start(data->map);
-// 	player = &data->player;
-// 	while (i < data->size.y)
-// 	{
-// 		j = 0;
-// 		while (j < data->size.x)
-// 		{
-// 			if (ft_strchr("NESW", map[i][j]) != NULL)
-// 			{
-// 				player->x = j * CELL_WIDTH;
-// 				player->y = i * CELL_HEIGHT;
-// 				player->posX = j;
-// 				player->posY = i;
-// 				// player->angle = get_angle(map[i][j]);
-// 				return (true);
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	printf("Player not found in map\n");
-// 	return (false);
-// }

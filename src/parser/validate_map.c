@@ -6,20 +6,11 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/19 19:38:56 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 17:17:33 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-static bool	check_char(const char c)
-{
-	if (c == '1' || c == '0'
-		|| c == 'N' || c == 'S'
-		|| c == 'E' || c == 'W' || c == ' ')
-		return (true);
-	return (false);
-}
 
 static bool	check_format(char **map)
 {
@@ -43,6 +34,42 @@ static bool	check_format(char **map)
 	return (true);
 }
 
+void	set_position(t_raycaster *frame, int k, int i)
+{
+	frame->posX = (double) k + 0.5;
+	frame->posY = (double) i + 0.5;
+	frame->dirX = -1;
+	frame->dirY = 0;
+	frame->planeX = 0;
+	frame->planeY = 0.66;
+}
+
+static int	set_player(t_data *data, char **map, int k, int i)
+{
+	set_position(&data->window.frame, k , i);
+	if (map[k][i] == 'S')
+	{
+		data->window.frame.dirX = 1;
+		data->window.frame.planeY = -0.66;
+	}
+	else if (map[k][i] == 'W')
+	{
+		data->window.frame.dirX = 0;
+		data->window.frame.dirY = -1;
+		data->window.frame.planeX = -0.66;
+		data->window.frame.planeY = 0;
+	}
+	else if (map[k][i] == 'E')
+	{
+		data->window.frame.dirX = 0;
+		data->window.frame.dirY = 1;
+		data->window.frame.planeX = 0.66;
+		data->window.frame.planeY = 0;
+	}
+	map[k][i] = '0';
+	return (1);
+}
+
 static bool	check_chars(t_data *data, char **map)
 {
 	int	player;
@@ -58,12 +85,7 @@ static bool	check_chars(t_data *data, char **map)
 		{
 			if (map[k][i] == 'N' || map[k][i] == 'S'
 				|| map[k][i] == 'E' || map[k][i] == 'W')
-			{
-				map[k][i] = '0';
-				player++;
-				data->player.posX = k;
-				data->player.posY = i;
-			}
+				player +=  set_player(data, map, k, i);
 			if (!check_char(map[k][i]))
 				error_msg("Invalid characters found! (N,S,E,W,1,0)", data);
 		}	
