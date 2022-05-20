@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:08:32 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 17:52:43 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,24 @@ void	exec_dda(char **map, t_raycaster *frame)
       	{
       		ray->sideDistX += ray->deltaDistX;
       	  	ray->mapX += ray->stepX;
-      		ray->side = 0;
+			if (frame->rayDirX < 0)
+				ray->side = north;
+			else
+      			ray->side = south;
       	}
       	else
       	{
       	  	ray->sideDistY += ray->deltaDistY;
       	  	ray->mapY += ray->stepY;
-      	  	ray->side = 1;
+			if (frame->rayDirY < 0)
+      	  		ray->side = west;
+			else
+				ray->side = east;
       	}
 		if (map[ray->mapX][ray->mapY] > '0')
 			ray->hit = 1;
     }
-	if (ray->side == 0)
+	if (ray->side == north || ray->side == south)
 		ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
     else
 		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY);
@@ -112,10 +118,14 @@ void	draw_ray(int x, t_window *window, t_raycaster *frame)
 	{
 		if (i >= drawStart && i <= drawEnd)
 		{
-			if (frame->ray.side == 0)
-				mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
-			else
-				mlx_put_pixel(window->window, x, drawStart++, 0xAAFFFFFF);
+			if (frame->ray.side == north)
+				mlx_put_pixel(window->window, x, drawStart++, 0x00FF00FF);
+			else if (frame->ray.side == south)
+				mlx_put_pixel(window->window, x, drawStart++, 0xFF0000FF);
+			else if (frame->ray.side == east)
+				mlx_put_pixel(window->window, x, drawStart++, 0x0000FFFF);
+			else if (frame->ray.side == west)
+				mlx_put_pixel(window->window, x, drawStart++, 0x00FFFFFF);
 		}
 		else if (i < drawStart)
 			mlx_put_pixel(window->window, x, i, window->f);

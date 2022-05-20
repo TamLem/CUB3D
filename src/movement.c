@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:03:56 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:09:44 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 17:38:06 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	move(t_data *data)
 	dirY = data->window.frame.dirY;
 	t_raycaster *frame;
 	frame = &data->window.frame;
+	printf("....\nrayDistX:\t%f\nrayDistY:\t%f\n", frame->ray.sideDistX, frame->ray.sideDistY);
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		move_player(dirY, -dirX, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
