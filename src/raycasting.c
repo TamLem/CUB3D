@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/19 16:46:03 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/20 17:51:53 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,22 +136,32 @@ void	init_window(t_data *data)
 
 void	draw_texture(t_data *data, int x, int y, int length)
 {
-	int	i;
-	unsigned int	color;
+	int				i;
+	float			scale;
+	uint8_t* 		pixelx;
+	uint8_t* 		pixeli;
+	int				texY;
+	int				texX;
 
+	// scale = sqrt(pow((x - data->window.frame.posX), 2) + pow( (y - data->window.frame.posY), 2));
+	scale = 1;
+	scale = data->window.frame.ray.perpWallDist / 10;
+	// if (data->window.frame.ray.side == '0')
+	// 	scale = data->window.frame.ray.sideDistY / 10;
+	// else
+	// 	scale = data->window.frame.ray.sideDistX / 5;
+	printf("scale %2f\n", scale);
 	i = 0;
-	while(i < length)
+	while (i < length)
 	{
-		color = *(data->textures[0]->pixels + y * 64 + x * (data->textures[0]->bytes_per_pixel / 8));
-		mlx_put_pixel(data->window.window, x, y, color);
+		texY = y * scale;
+		texX = x * scale;
+		pixelx = &data->textures[0]->pixels[((texY % 64) * data->textures[0]->width + (texX % 64)) * data->textures[0]->bytes_per_pixel];
+		pixeli = &data->window.window->pixels[((y * data->window.window->width + x) * 4)];
+		memmove(pixeli, pixelx, data->textures[0]->bytes_per_pixel);
 		y++;
 		i++;
 	}
-	// if (x > 64)
-	// 	x = 0;
-	// if (y > 64)
-	// 	y = 0;
-	// printf("here\n");
 }
 
 void	draw_window(int x, t_data *data, t_raycaster *frame)
@@ -178,29 +188,29 @@ void	draw_window(int x, t_data *data, t_raycaster *frame)
     if (drawEnd >= HEIGHT)
 		drawEnd = HEIGHT - 1;
 	int i = 0;
-	int j = x;
-	draw_texture(data, x, drawStart, lineHeight);
 	while (i < HEIGHT)
 	{
 		if (i >= drawStart && i <= drawEnd)
 		{
 
 			// mlx_put_pixel(window->window, x, i, 0x00000000);
+				// mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
 			// if (frame->ray.side == 0)
-			// 	mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
+			// 	draw_texture(data, x, drawStart++);
 			// else
 			// 	mlx_put_pixel(window->window, x, drawStart++, 0xAAFFFFFF);
-			// draw_texture(data, j, i);
 
 		}
 		else if (i < drawStart)
-			mlx_put_pixel(window->window, x, i, 0x00000000);
-		else
+			mlx_put_pixel(window->window, x, i, 0x0000FF77);
+		else if (i > drawEnd)
 		{
-			mlx_put_pixel(window->window, x, i, 0x00000000);
+			mlx_put_pixel(window->window, x, i, 0x00FF0077);
 		}
 		i++;
 	}
+	draw_texture(data, x, drawStart, drawEnd - drawStart);
+	drawStart += drawEnd - drawStart;
 }
 
 void	render(void *param)
