@@ -6,15 +6,15 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:06:53 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 20:03:00 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	create_trgb(int t, int r, int g, int b)
+int	create_trgb(int r, int g, int b, int t)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
+	return (r << 24 | g << 16 | b << 8 | t);
 }
 
 bool	check_char(const char c)
@@ -30,43 +30,15 @@ void	free_2d(char **arr)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (arr)
 	{
-		while (arr[i++])
+		while (arr[++i])
 		{
 			free(arr[i]);
 			arr[i] = NULL;
 		}
 		free(arr);
 		arr = NULL;
-	}
-}
-
-bool	check_line__(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i] && (str[i] == ' ' || str[i] == '1'))
-	{
-		if (str[i] == '1')
-			return (true);
-	}
-	return (false);
-}
-
-void	find_map_start(char ***map)
-{
-	int	k;
-
-	k = 0;
-	while (*map)
-	{
-		if (check_line__(*(*map + 1)))
-			break ;
-		free(**map);
-		**map = NULL;
-		(*map)++;
 	}
 }

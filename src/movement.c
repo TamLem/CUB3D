@@ -37,7 +37,6 @@ void	move(t_data *data)
 	dirY = data->window.frame.dirY;
 	t_raycaster *frame;
 	frame = &data->window.frame;
-	printf("....\nrayDistX:\t%f\nrayDistY:\t%f\n", frame->ray.sideDistX, frame->ray.sideDistY);
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
 		move_player(dirY, -dirX, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_A))

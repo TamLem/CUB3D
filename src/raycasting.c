@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:52:43 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 19:31:18 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,47 +94,6 @@ void	exec_dda(char **map, t_raycaster *frame)
 		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY);
 } 
 
-void	draw_ray(int x, t_window *window, t_raycaster *frame)
-{
-	int	lineHeight;
-	int	drawStart;
-	int	drawEnd;
-
-	lineHeight = 0;
-	drawStart = 0;
-	drawEnd = 0;
-	if (frame->ray.perpWallDist > 0)
-    	lineHeight = (int) (HEIGHT / frame->ray.perpWallDist);
-	else
-		lineHeight = 0;
-    drawStart = -(lineHeight) / 2 + HEIGHT / 2;
-    if (drawStart < 0)
-		drawStart = 0;
-    drawEnd = lineHeight / 2 + HEIGHT / 2;
-    if (drawEnd >= HEIGHT)
-		drawEnd = HEIGHT - 1;
-	int i = 0;
-	while (i < HEIGHT)
-	{
-		if (i >= drawStart && i <= drawEnd)
-		{
-			if (frame->ray.side == north)
-				mlx_put_pixel(window->window, x, drawStart++, 0x00FF00FF);
-			else if (frame->ray.side == south)
-				mlx_put_pixel(window->window, x, drawStart++, 0xFF0000FF);
-			else if (frame->ray.side == east)
-				mlx_put_pixel(window->window, x, drawStart++, 0x0000FFFF);
-			else if (frame->ray.side == west)
-				mlx_put_pixel(window->window, x, drawStart++, 0x00FFFFFF);
-		}
-		else if (i < drawStart)
-			mlx_put_pixel(window->window, x, i, window->f);
-		else
-			mlx_put_pixel(window->window, x, i, window->c);
-		i++;
-	}
-}
-
 void	render(void *param)
 {
 	t_data		*data;
@@ -160,7 +119,6 @@ void	raycaster(t_data *data)
 
 	frame = &data->window.frame;
 	init_window(data);
-	printf("x:%f y:%f\n", frame->posX, frame->posY);
 	while (data->window.enable == true)
 	{
 		mlx_loop_hook(data->window.mlx, &render, (data));

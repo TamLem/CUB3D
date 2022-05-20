@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:05:37 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 19:35:53 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ void	move(t_data *data);
 void	rotate_dir(t_data *data);
 void	rotate(t_data *data);
 int		create_trgb(int t, int r, int g, int b);
+void	draw_ray(int x, t_window *window, t_raycaster *frame);
 
 // UTILS
 void	error_msg(char *msg, t_data *data);
 void	free_2d(char **arr);
-void	find_map_start(char ***map);
 int		create_trgb(int t, int r, int g, int b);
 bool	check_char(const char c);
 

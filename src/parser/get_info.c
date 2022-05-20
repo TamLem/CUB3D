@@ -6,11 +6,41 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:04:29 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/20 20:06:58 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+static bool	check_line(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] && (str[i] == ' ' || str[i] == '1'))
+	{
+		if (str[i] == '1')
+			return (true);
+	}
+	return (false);
+}
+
+static void	find_map_start(char ***map)
+{
+	while (*map)
+	{
+		if (check_line(*(*map + 1)))
+		{
+			free(**map);
+			**map = NULL;
+			(*map)++;
+			break ;
+		}
+		free(**map);
+		**map = NULL;
+		(*map)++;
+	}
+}
 
 static void	find_color_cf(t_data *data, char *str)
 {
@@ -30,15 +60,15 @@ static void	find_color_cf(t_data *data, char *str)
 	color.red = ft_atoi(colors[0]);
 	color.green = ft_atoi(colors[1]);
 	color.blue = ft_atoi(colors[2]);
+	free_2d(colors);
 	if ((color.red < 0 || color.red > 255)
 		|| (color.green < 0 || color.green > 255)
 		|| (color.blue < 0 || color.blue > 255))
 		error_msg("Please use RBG values from 0-255!", data);
 	if (str[0] == 'F')
-		data->window.f = create_trgb(255, color.red, color.green, color.blue);
+		data->window.f = create_trgb(color.red, color.green, color.blue, 255);
 	else if (str[0] == 'C')
-		data->window.c = create_trgb(255, color.red, color.green, color.blue);
-	free_2d(colors);
+		data->window.c = create_trgb(color.red, color.green, color.blue, 255);
 }
 
 static void	set_texture_path(t_data *data, char *str)
