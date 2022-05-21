@@ -6,7 +6,7 @@
 #    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/19 11:10:48 by tlemma           ###   ########.fr        #
+#    Updated: 2022/05/21 15:06:44 by tlemma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,22 +16,26 @@ MLX		=	./_MLX42/libmlx42.a
 
 GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
-LIBFT	=	./inc/libft/
+LIBFT	=	./libft/
 
-SRC		=	$(shell find ./src/* -iname "*.c")
+SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/map.c ./src/parser/validate_map.c \
+			./src/init_mlx.c ./src/movement.c \
+			./src/raycasting.c ./src/utils.c
 
 OBJ		=	$(SRC:.c=.o)
 
 $(NAME): $(OBJ)
-	make -C $(LIBFT)
-	$(CC) -g -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
-	make clean
+	@echo 
+	@make -C $(LIBFT)
+	@$(CC) -g -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
 
 clean:
 	rm -f $(shell find ./src/* -iname "*.o")
+	@make clean -C $(LIBFT)
 
 fclean:
 	rm -f cub3D
+	rm -f $(LIBFT)libft.a
 
 re: clean fclean $(NAME)
 

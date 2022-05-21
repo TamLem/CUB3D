@@ -6,32 +6,47 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/19 11:47:00 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:07:46 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-static	bool	check_colors(t_data *data)
+static bool	check_line(char *str)
 {
-	t_color	c;
-	t_color	f;
+	int	i;
 
-	c = data->c;
-	f = data->f;
-	if ((f.red > -1 && f.green > -1 && f.blue > -1
-			&& c.red > -1 && c.green > -1 && c.blue > -1)
-		&& (f.red < 256 && f.green < 256 && f.blue < 256
-			&& c.red < 256 && c.green < 256 && c.blue < 256))
-		return (true);
-	error_msg("Wrong color Values! (0-255)", data);
+	i = -1;
+	while (str[++i] && (str[i] == ' ' || str[i] == '1'))
+	{
+		if (str[i] == '1')
+			return (true);
+	}
 	return (false);
+}
+
+static void	find_map_start(char ***map)
+{
+	while (*map)
+	{
+		if (check_line(*(*map + 1)))
+		{
+			free(**map);
+			**map = NULL;
+			(*map)++;
+			break ;
+		}
+		free(**map);
+		**map = NULL;
+		(*map)++;
+	}
 }
 
 static void	find_color_cf(t_data *data, char *str)
 {
 	char	**colors;
 	int		i;
+	t_color	color;
 
 	i = 0;
 	colors = ft_split(str + 2, ',');
@@ -42,25 +57,22 @@ static void	find_color_cf(t_data *data, char *str)
 		free_2d(colors);
 		error_msg("Wrong color format! 'C/F R,G,B'", data);
 	}
-	if (str[0] == 'C')
-	{
-		data->c.red = ft_atoi(colors[0]);
-		data->c.green = ft_atoi(colors[1]);
-		data->c.blue = ft_atoi(colors[2]);
-	}
-	if (str[0] == 'F')
-	{
-		data->f.red = ft_atoi(colors[0]);
-		data->f.green = ft_atoi(colors[1]);
-		data->f.blue = ft_atoi(colors[2]);
-	}
+	color.red = ft_atoi(colors[0]);
+	color.green = ft_atoi(colors[1]);
+	color.blue = ft_atoi(colors[2]);
 	free_2d(colors);
+	if ((color.red < 0 || color.red > 255)
+		|| (color.green < 0 || color.green > 255)
+		|| (color.blue < 0 || color.blue > 255))
+		error_msg("Please use RBG values from 0-255!", data);
+	if (str[0] == 'F')
+		data->window.f = create_trgb(color.red, color.green, color.blue, 255);
+	else if (str[0] == 'C')
+		data->window.c = create_trgb(color.red, color.green, color.blue, 255);
 }
 
 static void	set_texture_path(t_data *data, char *str)
 {
-	// if (!data->txt_paths)
-	// 	data->txt_paths = malloc(sizeof(char *) * 5);
 	if (!ft_strncmp(str, "NO ", 3))
 		data->txt_paths[0] = ft_strdup(str + 3);
 	if (!ft_strncmp(str, "SO ", 3))
@@ -75,6 +87,9 @@ bool	get_info(t_data *data)
 {
 	int	i;
 
+	data->txt_paths = malloc(sizeof(char *) * 5);
+	if (!data->txt_paths)
+		error_msg("Malloc Error!", data);
 	i = -1;
 	while (data->map[++i])
 	{
@@ -87,57 +102,6 @@ bool	get_info(t_data *data)
 			|| !ft_strncmp(data->map[i], "C ", 2))
 			find_color_cf(data, data->map[i]);
 	}
-	i = -1;
-	while (data->txt_paths[++i])
-	{
-		if (!access(data->txt_paths[i], R_OK)) // change as soon was we have textures
-			error_msg("Textures couldn't be loaded", data);
-	}
-	if (i != 4 || !check_colors(data))
-		return (false);
+	find_map_start(&data->map);
 	return (true);
 }
-
-// float get_angle(char angle)
-// {
-// 	if (angle == 'N')
-// 		return(0.5 * PI);
-// 	if (angle == 'E')
-// 		return(0);
-// 	if (angle == 'S')
-// 		return(1.5 * PI);
-// 	else
-// 		return(PI);
-// }
-
-// bool get_player_info(t_data *data)
-// {
-// 	int			i;
-// 	int			j;
-// 	char 		**map;
-// 	t_player	*player;
-
-// 	i = 0;
-// 	map = data->map + find_map_start(data->map);
-// 	player = &data->player;
-// 	while (i < data->size.y)
-// 	{
-// 		j = 0;
-// 		while (j < data->size.x)
-// 		{
-// 			if (ft_strchr("NESW", map[i][j]) != NULL)
-// 			{
-// 				player->x = j * CELL_WIDTH;
-// 				player->y = i * CELL_HEIGHT;
-// 				player->posX = j;
-// 				player->posY = i;
-// 				// player->angle = get_angle(map[i][j]);
-// 				return (true);
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	printf("Player not found in map\n");
-// 	return (false);
-// }
