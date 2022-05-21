@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:07:46 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:12:15 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,6 @@ bool	get_info(t_data *data)
 {
 	int	i;
 
-	data->txt_paths = malloc(sizeof(char *) * 5);
-	if (!data->txt_paths)
-		error_msg("Malloc Error!", data);
 	i = -1;
 	while (data->map[++i])
 	{

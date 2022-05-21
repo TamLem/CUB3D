@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:10:55 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/21 16:16:23 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,58 +100,6 @@ void	kill_window(t_window *window)
 	mlx_terminate(window->mlx);
 }
 
-void	init_window(t_data *data)
-{
-	t_window *window;
-
-	window = &data->window;
-	window->enable = true;
-	window->mlx = mlx_init(WIDTH, HEIGHT, "Cub3D!", false);
-	if (!window->mlx)
-		exit(-1);
-	window->window = mlx_new_image(window->mlx, WIDTH, HEIGHT);
-	mlx_image_to_window(window->mlx, window->window, 0, 0);
-	mlx_loop_hook(window->mlx, &hook, data);	
-}
-
-#define texHeight 64
-#define texWidth 64
-
-
-void	texturize(t_data *data, int x, int drawStart, int drawEnd)
-{
-	t_raycaster	*frame;
-	double		wallX;
-	int			texX;
-	
-	frame = &data->window.frame;
-	if (frame->ray.side == 0)
-		wallX = frame->posY + frame->ray.perpWallDist * frame->rayDirY;
-	else
-		wallX = frame->posX + frame->ray.perpWallDist * frame->rayDirX;
-	wallX -= floor((wallX));
-
-	texX = (int)(wallX * (double)texWidth);
-	if ((frame->ray.side == 0 && frame->rayDirX > 0) || (frame->ray.side == 1 && frame->rayDirY < 0) )
-		texX = texWidth - texX - 1;
-
-	int		lineHeight = drawEnd - drawStart;
-	double	step = 1.0 * texHeight / lineHeight;
-
-	double textPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
-	int	y = drawStart;
-	while (y < drawEnd)
-	{
-		int texY = (int)textPos & (texHeight - 1);
-		textPos += step;
-		uint8_t *pixelx = &data->textures[0]->pixels[((texY) * data->textures[0]->width + (texX)) * 4];
-		uint8_t	*pixeli = &data->window.window->pixels[((y * data->window.window->width + x) * 4)];
-		memmove(pixeli, pixelx, data->textures[0]->bytes_per_pixel);
-		y++;
-	}
-
-
-}
 
 void	draw_window(int x, t_data *data, t_raycaster *frame)
 {
@@ -216,7 +164,7 @@ void	render(void *param)
 		set_loop(x, frame);
 		calc_step_and_sideDist(frame);
 		exec_dda(data->map, frame);
-		draw_ray(x, &data->window, frame);
+		draw_ray(x, data, frame);
 		x++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:10:39 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/21 16:12:38 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_window
 	bool		enable;
 	void		*mlx;
 	mlx_image_t	*window;
-	mlx_image_t textures[4];
+	// mlx_image_t textures[4];
 	t_raycaster	frame;
 	int			c;
 	int			f;
@@ -97,8 +97,8 @@ typedef struct s_window
 typedef struct s_data
 {
 	char		**map;
-	char		*txt_paths[5];
-	mlx_texture_t *textures[5];
+	char		*txt_paths[4];
+	mlx_texture_t *textures[4];
 	t_window	window;
 }	t_data;
 
@@ -118,7 +118,12 @@ void	move(t_data *data);
 void	rotate_dir(t_data *data);
 void	rotate(t_data *data);
 int		create_trgb(int t, int r, int g, int b);
-void	draw_ray(int x, t_window *window, t_raycaster *frame);
+void	draw_ray(int x, t_data *data, t_raycaster *frame);
+
+void	texturize(t_data *data, int x, int drawStart, int drawEnd);
+bool	load_texture(t_data *data);
+
+
 
 // UTILS
 void	error_msg(char *msg, t_data *data);

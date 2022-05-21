@@ -6,7 +6,7 @@
 #    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/21 15:06:44 by tlemma           ###   ########.fr        #
+#    Updated: 2022/05/21 16:13:28 by tlemma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 LIBFT	=	./libft/
 
 SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/map.c ./src/parser/validate_map.c \
-			./src/init_mlx.c ./src/movement.c \
+			./src/init_mlx.c ./src/movement.c  ./src/draw.c ./src/texture.c\
 			./src/raycasting.c ./src/utils.c
 
 OBJ		=	$(SRC:.c=.o)

@@ -9,7 +9,6 @@
                 "-g",
                 "${workspaceFolder}/src/*.c",
                 "${workspaceFolder}/src/parser/*.c",
-                "${workspaceFolder}/src/utils/*.c",
                 "${workspaceFolder}/inc/libft/libft.a",
                 "${workspaceFolder}/_MLX42/libmlx42.a",
                 "-lglfw",

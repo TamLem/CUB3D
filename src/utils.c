@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:07:38 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:12:29 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ bool	check_char(const char c)
 		|| c == 'E' || c == 'W' || c == ' ')
 		return (true);
 	return (false);
-}
-
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
 }
 
 // int	decode_trgb(int color)
