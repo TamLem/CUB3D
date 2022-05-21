@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/20 17:51:53 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:03:52 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,9 @@ void	init_window(t_data *data)
 	mlx_loop_hook(window->mlx, &hook, data);	
 }
 
+#define texHeight 64
+#define texWidth 64
+
 void	draw_texture(t_data *data, int x, int y, int length)
 {
 	int				i;
@@ -144,7 +147,7 @@ void	draw_texture(t_data *data, int x, int y, int length)
 	int				texX;
 
 	// scale = sqrt(pow((x - data->window.frame.posX), 2) + pow( (y - data->window.frame.posY), 2));
-	scale = 1;
+	scale = 1.0 * texHeight / length;;
 	scale = data->window.frame.ray.perpWallDist / 10;
 	// if (data->window.frame.ray.side == '0')
 	// 	scale = data->window.frame.ray.sideDistY / 10;
@@ -162,6 +165,42 @@ void	draw_texture(t_data *data, int x, int y, int length)
 		y++;
 		i++;
 	}
+}
+
+
+void	texturize(t_data *data, int x, int drawStart, int drawEnd)
+{
+	t_raycaster	*frame;
+	double		wallX;
+	int			texX;
+	
+	frame = &data->window.frame;
+	if (frame->ray.side == 0)
+		wallX = frame->posY + frame->ray.perpWallDist * frame->rayDirY;
+	else
+		wallX = frame->posX + frame->ray.perpWallDist * frame->rayDirX;
+	wallX -= floor((wallX));
+
+	texX = (int)(wallX * (double)texWidth);
+	if ((frame->ray.side == 0 && frame->rayDirX > 0) || (frame->ray.side == 1 && frame->rayDirY < 0) )
+		texX = texWidth - texX - 1;
+
+	int		lineHeight = drawEnd - drawStart;
+	double	step = 1.0 * texHeight / lineHeight;
+
+	double textPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
+	int	y = drawStart;
+	while (y < drawEnd)
+	{
+		int texY = (int)textPos & (texHeight - 1);
+		textPos += step;
+		uint8_t *pixelx = &data->textures[0]->pixels[((texY) * data->textures[0]->width + (texX)) * 4];
+		uint8_t	*pixeli = &data->window.window->pixels[((y * data->window.window->width + x) * 4)];
+		memmove(pixeli, pixelx, data->textures[0]->bytes_per_pixel);
+		y++;
+	}
+
+
 }
 
 void	draw_window(int x, t_data *data, t_raycaster *frame)
@@ -188,6 +227,8 @@ void	draw_window(int x, t_data *data, t_raycaster *frame)
     if (drawEnd >= HEIGHT)
 		drawEnd = HEIGHT - 1;
 	int i = 0;
+	texturize(data, x, drawStart, drawEnd);
+	// drawStart += drawEnd - drawStart;
 	while (i < HEIGHT)
 	{
 		if (i >= drawStart && i <= drawEnd)
@@ -209,8 +250,7 @@ void	draw_window(int x, t_data *data, t_raycaster *frame)
 		}
 		i++;
 	}
-	draw_texture(data, x, drawStart, drawEnd - drawStart);
-	drawStart += drawEnd - drawStart;
+	// draw_texture(data, x, drawStart, drawEnd - drawStart);
 }
 
 void	render(void *param)
