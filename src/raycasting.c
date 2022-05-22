@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 16:16:23 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/22 17:33:39 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,56 +98,6 @@ void	kill_window(t_window *window)
 {
 	mlx_delete_image(window->mlx, window->window);
 	mlx_terminate(window->mlx);
-}
-
-
-void	draw_window(int x, t_data *data, t_raycaster *frame)
-{
-    //Calculate height of line to draw on screen
-	int	lineHeight;
-	int	drawStart;
-	int	drawEnd;
-	t_window *window;
-
-	window = &data->window;
-	lineHeight = 0;
-	drawStart = 0;
-	drawEnd = 0;
-	if (frame->ray.perpWallDist > 0)
-    	lineHeight = (int) (HEIGHT / frame->ray.perpWallDist);
-	else
-		lineHeight = 0;
-    //calculate lowest and highest pixel to fill in current stripe
-    drawStart = -(lineHeight) / 2 + HEIGHT / 2;
-    if (drawStart < 0)
-		drawStart = 0;
-    drawEnd = lineHeight / 2 + HEIGHT / 2;
-    if (drawEnd >= HEIGHT)
-		drawEnd = HEIGHT - 1;
-	int i = 0;
-	texturize(data, x, drawStart, drawEnd);
-	// drawStart += drawEnd - drawStart;
-	while (i < HEIGHT)
-	{
-		if (i >= drawStart && i <= drawEnd)
-		{
-
-			// mlx_put_pixel(window->window, x, i, 0x00000000);
-				// mlx_put_pixel(window->window, x, drawStart++, 0xFFFFFFFF);
-			// if (frame->ray.side == 0)
-			// 	draw_texture(data, x, drawStart++);
-			// else
-			// 	mlx_put_pixel(window->window, x, drawStart++, 0xAAFFFFFF);
-
-		}
-		else if (i < drawStart)
-			mlx_put_pixel(window->window, x, i, 0x0000FF77);
-		else if (i > drawEnd)
-		{
-			mlx_put_pixel(window->window, x, i, 0x00FF0077);
-		}
-		i++;
-	}
 }
 
 void	render(void *param)

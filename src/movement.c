@@ -6,11 +6,30 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:03:56 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:06:50 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/22 18:06:41 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+bool	check_wall(float move_dirX , float move_dirY, t_data *data)
+{
+	int	i;
+	t_raycaster		*frame;
+	char			**map;
+
+	i = 1;
+	frame = &data->window.frame;
+	map = data->map;
+	while (i < 400 * MOVE_SPEED)
+	{
+		if ((map[(int)(frame->posX + move_dirX * i * MOVE_SPEED)][(int)frame->posY] == '1') ||
+			(map[(int)(frame->posX)][(int)(frame->posY + move_dirY * i * MOVE_SPEED)] == '1') )
+				return (false);
+		i++;
+	}
+	return (true);
+}
 
 void	move_player(float move_dirX, float move_dirY, t_data *data)
 {
@@ -19,10 +38,11 @@ void	move_player(float move_dirX, float move_dirY, t_data *data)
 
 	frame = &data->window.frame;
 	map = data->map;
-	if (map[(int)(frame->posX + move_dirX * MOVE_SPEED)][(int)frame->posY] == '0')
-		frame->posX += move_dirX * MOVE_SPEED;
-	if (map[(int)(frame->posX)][(int)(frame->posY + move_dirY * MOVE_SPEED)] == '0')
-		frame->posY += move_dirY * MOVE_SPEED;
+	if (check_wall(move_dirX, move_dirY, data))
+		{
+			frame->posX += move_dirX * MOVE_SPEED;
+			frame->posY += move_dirY * MOVE_SPEED;
+		}
 }
 
 void	move(t_data *data)
