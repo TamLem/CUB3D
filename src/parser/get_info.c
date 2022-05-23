@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 17:08:46 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 20:26:52 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,8 @@
 
 static void	find_map_start(char ***map)
 {
-	while (*map)
-	{
-		if (check_line(*(*map + 1)))
-		{
-			free(**map);
-			**map = NULL;
-			(*map)++;
-			break ;
-		}
-		free(**map);
-		**map = NULL;
+	while (*map && *(*map + 1) && !check_line(*(*map)))
 		(*map)++;
-	}
 }
 
 static int	find_color_cf(t_data *data, char *str)
@@ -57,22 +46,28 @@ static int	find_color_cf(t_data *data, char *str)
 
 static void	set_texture_path(t_data *data, char *str)
 {
-	if (!ft_strncmp(str, "NO ", 3))
-		data->txt_paths[0] = ft_strdup(str + 3);
-	else if (!ft_strncmp(str, "N ", 2))
-		data->txt_paths[0] = ft_strdup(str + 2);
-	if (!ft_strncmp(str, "SO ", 3))
-		data->txt_paths[1] = ft_strdup(str + 3);
-	else if (!ft_strncmp(str, "S ", 2))
-		data->txt_paths[1] = ft_strdup(str + 2);
-	if (!ft_strncmp(str, "EA ", 3))
-		data->txt_paths[2] = ft_strdup(str + 3);
-	else if (!ft_strncmp(str, "E ", 2))
-		data->txt_paths[2] = ft_strdup(str + 2);
-	if (!ft_strncmp(str, "WE ", 3))
-		data->txt_paths[3] = ft_strdup(str + 3);
-	else if (!ft_strncmp(str, "W ", 2))
-		data->txt_paths[3] = ft_strdup(str + 2);
+	int		i;
+	char	*path;
+	char	*pwd;
+
+	i = 0;
+	while (str[i] != '.')
+		i++;
+	i++;
+	pwd = get_pwd(data->env);
+	path = ft_strjoin(pwd, str + i);
+	if (access(path, R_OK) != 0)
+		error_msg("Invalid TXT_PATH!", data);
+	if (!ft_strncmp(str, "N", 1))
+		data->txt_paths[0] = ft_strdup(path);
+	else if (!ft_strncmp(str, "S", 1))
+		data->txt_paths[1] = ft_strdup(path);
+	else if (!ft_strncmp(str, "E", 1))
+		data->txt_paths[2] = ft_strdup(path);
+	else if (!ft_strncmp(str, "W", 1))
+		data->txt_paths[3] = ft_strdup(path);
+	free(path);
+	free(pwd);
 }
 
 bool	get_info(t_data *data)
@@ -80,6 +75,11 @@ bool	get_info(t_data *data)
 	int	i;
 	int	colors;
 
+	i = -1;
+	if (!check_txt(data->map))
+		error_msg("Put ONE of each: NO/SO/EA/WE ./path/to/texture", data);
+	while (data->txt_paths[++i])
+		data->txt_paths[i] = NULL;
 	colors = 0;
 	i = -1;
 	while (data->map[++i])
@@ -92,6 +92,7 @@ bool	get_info(t_data *data)
 	}
 	if (colors != 2 || (data->window.c == -1 || data->window.f == -1))
 		error_msg("You have to set C AND F (only) once! ('C/F R,G,B')", data);
+	data->free_map = data->map;
 	find_map_start(&data->map);
 	return (true);
 }

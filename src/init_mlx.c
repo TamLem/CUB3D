@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_mlx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:31:39 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 17:33:24 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 19:18:27 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ bool	load_texture(t_data *data)
 	while (i < 4)
 	{
 		data->textures[i] = mlx_load_png(data->txt_paths[i]);
-		free(data->txt_paths[i]);
-		data->txt_paths[i] = NULL;
 		if (data->textures[i] == NULL)
 		{
 			while (--i >= 0)

@@ -6,11 +6,17 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 17:09:06 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 20:06:31 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+void	error_msg(char *msg, t_data *data)
+{
+	printf("ERROR!\n%s\n", msg);
+	exit(-1);
+}
 
 void	raycaster(t_data *data)
 {
@@ -25,10 +31,11 @@ void	raycaster(t_data *data)
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
+	data.env = env;
 	if (argc != 2)
 	{
 		error_msg(

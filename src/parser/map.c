@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 15:15:12 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 20:01:11 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,22 @@ static bool	check_extension(char *str)
 		&& str[i - 4] == '.')
 		return (true);
 	return (false);
+}
+
+char	*get_pwd(char **env)
+{
+	char	*ret;
+
+	while (*env)
+	{
+		if (!ft_strncmp(*env, "PWD=", 4))
+		{
+			ret = ft_strdup(*env + 4);
+			break ;
+		}
+		env++;
+	}
+	return (ret);
 }
 
 bool	parse_map(t_data *data, char *file)

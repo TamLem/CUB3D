@@ -6,30 +6,11 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 16:39:40 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 19:46:10 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-static bool	check_format(char **map)
-{
-	int	x;
-	int	y;
-
-	x = -1;
-	y = -1;
-	while (map[++y])
-	{	
-		while (map[y][++x])
-		{
-			if (!check_neighbours(map, x, y))
-				return (false);
-		}
-		x = -1;
-	}
-	return (true);
-}
 
 void	set_position(t_raycaster *frame, int k, int i)
 {
@@ -67,6 +48,19 @@ static int	set_player(t_data *data, char **map, int k, int i)
 	return (1);
 }
 
+static bool	check_neighbours(char **map, int x, int y)
+{
+	if (map[y][x] && map[y][x] == '0')
+	{
+		if ((map[y][x + 1] && white_space(map[y][x + 1]))
+			|| (map[y][x - 1] && white_space(map[y][x - 1]))
+			|| (!map[y + 1][x] || white_space(map[y + 1][x]))
+			|| (!map[y - 1][x]) || white_space(map[y - 1][x]))
+			return (false);
+	}
+	return (true);
+}
+
 static bool	check_chars(t_data *data, char **map)
 {
 	int	player;
@@ -83,8 +77,8 @@ static bool	check_chars(t_data *data, char **map)
 			if (map[k][i] == 'N' || map[k][i] == 'S'
 				|| map[k][i] == 'E' || map[k][i] == 'W')
 				player += set_player(data, map, k, i);
-			if (!check_char(map[k][i]))
-				error_msg("Invalid characters found! (N,S,E,W,1,0)", data);
+			if (!check_char(map[k][i]) || !check_neighbours(map, i, k))
+				error_msg("Invalid Map! Check chars and borders!", data);
 		}	
 		i = -1;
 	}
@@ -98,14 +92,14 @@ bool	validate_map(char **map, t_data *data)
 	int	i;
 
 	i = 0;
-	while (map[0][i] == ' ')
+	while (white_space(map[0][i]))
 		i++;
 	while (map[0][i])
 	{
 		if (map[0][i++] != '1')
 			return (false);
 	}
-	if (check_chars(data, map) && check_format(map))
+	if (check_chars(data, map))
 		return (true);
 	return (false);
 }

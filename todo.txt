@@ -2,3 +2,10 @@
 - add free texture function to exit success and failure procedures
 - some norm fixes
 - increase wall height if possible
+
+
+
+
+-frees: data->map_free points to beginning of **map infos
+		we might need to use different error functions for parser and the other part. 
+		i only freed stuff which isn't needed after function calls anymore.

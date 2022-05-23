@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 17:32:52 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 20:31:20 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@
 # include <stdbool.h>
 # include <memory.h>
 
-enum e_error {
-	mapfile = 5,
-	map_err,
-	fc,
-	txt,
-	mllc
-};
-
 enum e_direction {
 	north,
 	south,
@@ -38,9 +30,6 @@ enum e_direction {
 
 # define WIDTH 1280
 # define HEIGHT 768
-# define PI 3.14159
-# define CELL_WIDTH 32
-# define CELL_HEIGHT 32
 # define MOVE_SPEED 0.05
 # define X 0
 # define Y 1
@@ -98,11 +87,13 @@ typedef struct s_window
 
 typedef struct s_data
 {
+	char			**free_map;
 	char			**map;
+	char			**env;
+	char			*pwd;
 	char			*txt_paths[4];
 	mlx_texture_t	*textures[4];
 	t_window		window;
-	char			*pwd;
 }				t_data;
 
 // PARSER
@@ -110,10 +101,11 @@ bool	parse_map(t_data *data, char *file);
 bool	validate_map(char **map, t_data *data);
 bool	get_info(t_data *data);
 bool	get_player_info(t_data *data);
-bool	check_neighbours(char **map, int x, int y);
 bool	check_line(char *str);
 bool	check_colors(t_color color);
 bool	check_text_path(t_data *data, int i);
+bool	check_txt(char **map);
+char	*get_pwd(char **env);
 
 // WINDOW AND MLX
 void	init_window(t_data *data);
@@ -137,5 +129,6 @@ int		create_trgb(int t, int r, int g, int b);
 bool	check_char(const char c);
 void	free_textures(t_data *data);
 int		create_trgb(int t, int r, int g, int b);
+bool	white_space(const char c);
 
 #endif

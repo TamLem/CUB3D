@@ -6,24 +6,22 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 17:05:58 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 19:29:22 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+bool	white_space(const char c)
+{
+	if (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
+		return (true);
+	return (false);
+}
+
 int	create_trgb(int r, int g, int b, int t)
 {
 	return (r << 24 | g << 16 | b << 8 | t);
-}
-
-void	error_msg(char *msg, t_data *data)
-{
-	printf("ERROR!\n%s\n", msg);
-	if (data->map)
-		free_2d(data->map);
-	system("leaks cub3D");
-	exit(-1);
 }
 
 bool	check_char(const char c)

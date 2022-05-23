@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:39:10 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 16:55:43 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 20:21:53 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,32 @@ bool	check_text_path(t_data *data, int i)
 	return (false);
 }
 
-bool	check_neighbours(char **map, int x, int y)
+bool	check_txt(char **map)
 {
-	if (map[y][x] == '0')
+	int	txt[4];
+	int	i;
+
+	i = -1;
+	while (++i < 4)
+		txt[i] = 0;
+	i = -1;
+	while (map[++i])
 	{
-		if ((map[y][x + 1] && map[y][x + 1] == ' ')
-			|| (map[y][x - 1] && map[y][x - 1] == ' ')
-			|| (!map[y + 1][x] || map[y + 1][x] == ' ')
-			|| (!map[y - 1][x]) || map[y - 1][x] == ' ')
-			return (false);
+		if (map[i][0] == 'N'
+			&& (map[i][1] == '.' || white_space(map[i][1]) || map[i][1] == 'O'))
+			txt[0] += 1;
+		if (map[i][0] == 'S'
+			&& (map[i][1] == '.' || white_space(map[i][1]) || map[i][1] == 'O'))
+			txt[1] += 1;
+		if (map[i][0] == 'W'
+			&& (map[i][1] == '.' || white_space(map[i][1]) || map[i][1] == 'E'))
+			txt[2] += 1;
+		if (map[i][0] == 'E'
+			&& (map[i][1] == '.' || white_space(map[i][1]) || map[i][1] == 'A'))
+			txt[3] += 1;
 	}
+	if (txt[0] != 1 || txt[1] != 1 || txt[2] != 1 || txt[3] != 1)
+		return (false);
 	return (true);
 }
 
@@ -53,7 +69,7 @@ bool	check_line(char *str)
 	int	i;
 
 	i = -1;
-	while (str[++i] && (str[i] == ' ' || str[i] == '1'))
+	while (str[++i] && (white_space(str[i]) || str[i] == '1'))
 	{
 		if (str[i] == '1')
 			return (true);
