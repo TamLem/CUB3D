@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:27:01 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 14:06:56 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 16:39:40 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static bool	check_format(char **map)
 	{	
 		while (map[y][++x])
 		{
-			if ((map[y][x] == '0' && map[y][x + 1] && map[y][x + 1] == ' ')
-				|| (map[y][x] == '0' && map[y][x - 1] && map[y][x - 1] == ' ')
-				|| (map[y][x] == '0' && map[y + 1][x] && map[y + 1][x] == ' ')
-				|| (map[y][x] == '0' && map[y - 1][x] && map[y - 1][x] == ' '))
+			if (!check_neighbours(map, x, y))
 				return (false);
 		}
 		x = -1;
@@ -98,8 +95,17 @@ static bool	check_chars(t_data *data, char **map)
 
 bool	validate_map(char **map, t_data *data)
 {
+	int	i;
+
+	i = 0;
+	while (map[0][i] == ' ')
+		i++;
+	while (map[0][i])
+	{
+		if (map[0][i++] != '1')
+			return (false);
+	}
 	if (check_chars(data, map) && check_format(map))
 		return (true);
-	error_msg("A Problem occured with parsing the map!", data);
 	return (false);
 }

@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   init_mlx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:31:39 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 14:08:18 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:07:39 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+bool	load_texture(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		data->textures[i] = mlx_load_png(data->txt_paths[i]);
+		free(data->txt_paths[i]);
+		data->txt_paths[i] = NULL;
+		if (data->textures[i] == NULL)
+		{
+			while (--i >= 0)
+				mlx_delete_texture(data->textures[i]);
+			error_msg("Couldn't load textures!", data);
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+void	kill_window(t_window *window)
+{
+	mlx_delete_image(window->mlx, window->window);
+	mlx_terminate(window->mlx);
+}
 
 void	init_window(t_data *data)
 {
@@ -31,7 +59,9 @@ void	hook(void *param)
 	t_data		*data;
 	t_window	*window;
 	t_raycaster	*frame;
+	int			i;
 
+	i = 0;
 	data = param;
 	window = &data->window;
 	frame = &window->frame;
