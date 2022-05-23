@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:13:55 by tlemma            #+#    #+#             */
-/*   Updated: 2022/05/23 14:25:08 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 16:52:09 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,19 @@ static void	texturize(t_data *data, int x, int draw_start, int draw_end)
 	texture = data->textures[data->window.frame.ray.side];
 	tex[X] = get_tex_x(&data->window.frame, texture);
 	line_height = draw_end - draw_start;
-	step = 1.0 * texture->height / line_height;
 	text_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
+	step = 1.0 * texture->height / line_height;
 	while (draw_start < draw_end)
 	{
 		tex[Y] = (int)text_pos & (texture->height - 1);
 		text_pos += step;
-		ft_memmove(&data->window.window->pixels[
-			((draw_start * data->window.window->width + x) * BPP)],
-			&texture->pixels[((tex[Y]) * texture->height + (tex[X])) * BPP],
-			BPP);
+		if (draw_start >= 0 && draw_start <= HEIGHT)
+		{
+			ft_memmove(&data->window.window->pixels[
+				((draw_start * data->window.window->width + x) * BPP)],
+				&texture->pixels[((tex[Y]) * texture->height + (tex[X])) * BPP],
+				BPP);
+		}
 		draw_start++;
 	}
 }
@@ -72,9 +75,7 @@ void	draw_ray(int x, t_data *data, t_raycaster *frame)
 	line_height = 0;
 	if (frame->ray.perp_wall_dist > 0)
 		line_height = (int)(HEIGHT / frame->ray.perp_wall_dist);
-	draw_start = -(line_height) / 2 + HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
+	draw_start = HEIGHT / 2 - line_height / 2;
 	draw_end = line_height / 2 + HEIGHT / 2;
 	if (draw_end >= HEIGHT)
 		draw_end = HEIGHT - 1;

@@ -6,13 +6,13 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:03:56 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 14:27:39 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:27:30 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-bool	check_wall(float move_dir_x, float move_dir_y, t_data *data)
+static bool	check_wall(float move_dir_x, float move_dir_y, t_data *data)
 {
 	int				i;
 	t_raycaster		*frame;
@@ -21,11 +21,11 @@ bool	check_wall(float move_dir_x, float move_dir_y, t_data *data)
 	i = 1;
 	frame = &data->window.frame;
 	map = data->map;
-	while (i < 400 * MOVE_SPEED)
+	while (i < 5)
 	{
 		if ((map[(int)(frame->pos_x + move_dir_x * i * MOVE_SPEED)]
-			[(int)frame->pos_y] == '1') ||
-			(map[(int)(frame->pos_x)]
+			[(int)frame->pos_y] == '1')
+			|| (map[(int)(frame->pos_x)]
 			[(int)(frame->pos_y + move_dir_y * i * MOVE_SPEED)] == '1'))
 			return (false);
 		i++;
@@ -67,26 +67,6 @@ void	move(t_data *data)
 		move_player(-dir_x, -dir_y, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
 		move_player(dir_x, dir_y, data);
-	printf("posX %f, posY %f\n", data->window.frame.pos_x, data->window.frame.pos_y);
-}
-
-void	rotate_dir(t_data *data)
-{
-	t_window	*window;
-	t_raycaster	*frame;
-	double		rot_speed;
-
-	rot_speed = 0.05;
-	window = &data->window;
-	frame = &window->frame;
-	frame->dir_x = frame->dir_x
-		* cos(-rot_speed) - frame->dir_y * sin(-rot_speed);
-	frame->dir_y = frame->olddir_x
-		* sin(-rot_speed) + frame->dir_y * cos(-rot_speed);
-	frame->plane_x = frame->plane_x
-		* cos(-rot_speed) - frame->plane_y * sin(-rot_speed);
-	frame->plane_y = frame->oldplane_x
-		* sin(-rot_speed) + frame->plane_y * cos(-rot_speed);
 }
 
 void	rotate(t_data *data)

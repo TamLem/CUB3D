@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 13:55:44 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:16:28 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	render(void *param);
 //RAY CASTING AND PLAYER MOVEMENT
 void	raycaster(t_data *data);
 void	move(t_data *data);
-void	rotate_dir(t_data *data);
 void	rotate(t_data *data);
 
 //draw
