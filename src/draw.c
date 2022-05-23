@@ -6,23 +6,11 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:13:55 by tlemma            #+#    #+#             */
-/*   Updated: 2022/05/23 13:54:54 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:25:08 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-static int	get_texture(t_raycaster *frame)
-{
-	if (frame->ray.side == north)
-		return (0);
-	else if (frame->ray.side == south)
-		return (1);
-	else if (frame->ray.side == east)
-		return (2);
-	else
-		return (3);
-}
 
 static double	get_wall_x(t_raycaster *frame)
 {
@@ -55,7 +43,7 @@ static void	texturize(t_data *data, int x, int draw_start, int draw_end)
 	double			text_pos;
 	mlx_texture_t	*texture;
 
-	texture = data->textures[get_texture(&data->window.frame)];
+	texture = data->textures[data->window.frame.ray.side];
 	tex[X] = get_tex_x(&data->window.frame, texture);
 	line_height = draw_end - draw_start;
 	step = 1.0 * texture->height / line_height;

@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:03:56 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 13:58:15 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:27:39 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	move(t_data *data)
 		move_player(-dir_x, -dir_y, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
 		move_player(dir_x, dir_y, data);
+	printf("posX %f, posY %f\n", data->window.frame.pos_x, data->window.frame.pos_y);
 }
 
 void	rotate_dir(t_data *data)

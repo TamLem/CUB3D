@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 14:05:20 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:19:13 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ void	calc_step_and_side_dist(t_raycaster	*frame)
 		ray->step_x = -1;
 		ray->side_dist_x = (frame->pos_x - ray->map_x) * ray->delta_dist_x;
 	}
-		ray->step_y = 1;
-		ray->side_dist_y = (ray->map_y + 1.0 - frame->pos_y)
-		* ray->delta_dist_y;
+	ray->step_y = 1;
+	ray->side_dist_y = (ray->map_y + 1.0 - frame->pos_y) * ray->delta_dist_y;
 	if (frame->raydir_y < 0)
 	{
 		ray->step_y = -1;
