@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
+#    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/21 16:13:28 by tlemma           ###   ########.fr        #
+#    Updated: 2022/05/23 17:02:22 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,14 @@ NAME	=	cub3D
 
 MLX		=	./_MLX42/libmlx42.a
 
-GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
+FLAGS	=	-Wall -Werror -Wextra
+
+GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
 
 LIBFT	=	./libft/
 
-SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/map.c ./src/parser/validate_map.c \
-			./src/init_mlx.c ./src/movement.c  ./src/draw.c ./src/texture.c\
+SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/map.c ./src/parser/validate_map.c  ./src/parser/parse_utils.c\
+			./src/init_mlx.c ./src/movement.c  ./src/draw.c \
 			./src/raycasting.c ./src/utils.c
 
 OBJ		=	$(SRC:.c=.o)
@@ -27,7 +29,7 @@ OBJ		=	$(SRC:.c=.o)
 $(NAME): $(OBJ)
 	@echo 
 	@make -C $(LIBFT)
-	@$(CC) -g -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
 
 clean:
 	rm -f $(shell find ./src/* -iname "*.o")
