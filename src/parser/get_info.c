@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:26:52 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/23 20:54:24 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 static void	find_map_start(char ***map)
 {
+	char	**mapstart;
+
 	while (*map && *(*map + 1) && !check_line(*(*map)))
 		(*map)++;
+	mapstart = *map;
+	while (*mapstart)
+	{
+		if ((white_space(**mapstart) || **mapstart == '1') && **mapstart != '\n')
+			mapstart++;
+		else
+			error_msg("Mapfile has to end with last line of Map!", NULL);
+	}
 }
 
 static int	find_color_cf(t_data *data, char *str)
