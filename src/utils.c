@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 14:07:39 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:05:58 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 int	create_trgb(int r, int g, int b, int t)
 {
 	return (r << 24 | g << 16 | b << 8 | t);
+}
+
+void	error_msg(char *msg, t_data *data)
+{
+	printf("ERROR!\n%s\n", msg);
+	if (data->map)
+		free_2d(data->map);
+	system("leaks cub3D");
+	exit(-1);
 }
 
 bool	check_char(const char c)

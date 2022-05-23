@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 17:16:28 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:32:52 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ bool	parse_map(t_data *data, char *file);
 bool	validate_map(char **map, t_data *data);
 bool	get_info(t_data *data);
 bool	get_player_info(t_data *data);
+bool	check_neighbours(char **map, int x, int y);
+bool	check_line(char *str);
+bool	check_colors(t_color color);
+bool	check_text_path(t_data *data, int i);
 
 // WINDOW AND MLX
 void	init_window(t_data *data);

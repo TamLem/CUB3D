@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 16:11:55 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:09:06 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	error_msg(char *msg, t_data *data)
+void	raycaster(t_data *data)
 {
-	printf("ERROR!\n%s\n", msg);
-	// if (data->map)
-	// 	free_2d(data->map);
-	exit(-1);
+	t_raycaster	*frame;
+
+	frame = &data->window.frame;
+	init_window(data);
+	while (data->window.enable == true)
+	{
+		mlx_loop_hook(data->window.mlx, &render, (data));
+		mlx_loop(data->window.mlx);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -31,5 +36,7 @@ int	main(int argc, char **argv)
 	}
 	else if (parse_map(&data, argv[1]) && load_texture(&data))
 		raycaster(&data);
+	else
+		error_msg("A Problem occured with parsing the mapfile!", &data);
 	return (0);
 }
