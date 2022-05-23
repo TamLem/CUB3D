@@ -6,15 +6,15 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 17:03:56 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/22 18:06:41 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 13:58:15 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-bool	check_wall(float move_dirX , float move_dirY, t_data *data)
+bool	check_wall(float move_dir_x, float move_dir_y, t_data *data)
 {
-	int	i;
+	int				i;
 	t_raycaster		*frame;
 	char			**map;
 
@@ -23,80 +23,91 @@ bool	check_wall(float move_dirX , float move_dirY, t_data *data)
 	map = data->map;
 	while (i < 400 * MOVE_SPEED)
 	{
-		if ((map[(int)(frame->posX + move_dirX * i * MOVE_SPEED)][(int)frame->posY] == '1') ||
-			(map[(int)(frame->posX)][(int)(frame->posY + move_dirY * i * MOVE_SPEED)] == '1') )
-				return (false);
+		if ((map[(int)(frame->pos_x + move_dir_x * i * MOVE_SPEED)]
+			[(int)frame->pos_y] == '1') ||
+			(map[(int)(frame->pos_x)]
+			[(int)(frame->pos_y + move_dir_y * i * MOVE_SPEED)] == '1'))
+			return (false);
 		i++;
 	}
 	return (true);
 }
 
-void	move_player(float move_dirX, float move_dirY, t_data *data)
+void	move_player(float move_dir_x, float move_dir_y, t_data *data)
 {
 	t_raycaster		*frame;
 	char			**map;
 
 	frame = &data->window.frame;
 	map = data->map;
-	if (check_wall(move_dirX, move_dirY, data))
-		{
-			frame->posX += move_dirX * MOVE_SPEED;
-			frame->posY += move_dirY * MOVE_SPEED;
-		}
+	if (check_wall(move_dir_x, move_dir_y, data))
+	{
+		frame->pos_x += move_dir_x * MOVE_SPEED;
+		frame->pos_y += move_dir_y * MOVE_SPEED;
+	}
 }
 
 void	move(t_data *data)
 {
-	float		dirX;
-	float		dirY;
+	float		dir_x;
+	float		dir_y;
 	mlx_t		*mlx;
-	double		rotSpeed;
+	double		rot_speed;
+	t_raycaster	*frame;
 
 	mlx = data->window.mlx;
-	dirX = data->window.frame.dirX;
-	dirY = data->window.frame.dirY;
-	t_raycaster *frame;
+	dir_x = data->window.frame.dir_x;
+	dir_y = data->window.frame.dir_y;
 	frame = &data->window.frame;
 	if (mlx_is_key_down(mlx, MLX_KEY_D))
-		move_player(dirY, -dirX, data);
+		move_player(dir_y, -dir_x, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_A))
-		move_player(-dirY, dirX, data);
-	if (mlx_is_key_down(mlx, MLX_KEY_S) )
-		move_player(-dirX, -dirY, data);
+		move_player(-dir_y, dir_x, data);
+	if (mlx_is_key_down(mlx, MLX_KEY_S))
+		move_player(-dir_x, -dir_y, data);
 	if (mlx_is_key_down(mlx, MLX_KEY_W))
-		move_player(dirX, dirY, data);
+		move_player(dir_x, dir_y, data);
 }
 
 void	rotate_dir(t_data *data)
 {
 	t_window	*window;
 	t_raycaster	*frame;
-	double		rotSpeed = 0.05;
+	double		rot_speed;
 
+	rot_speed = 0.05;
 	window = &data->window;
 	frame = &window->frame;
-	frame->dirX = frame->dirX * cos(-rotSpeed) - frame->dirY * sin(-rotSpeed);
-	frame->dirY = frame->oldDirX * sin(-rotSpeed) + frame->dirY * cos(-rotSpeed);
-	frame->planeX = frame->planeX * cos(-rotSpeed) - frame->planeY * sin(-rotSpeed);
-	frame->planeY = frame->oldPlaneX * sin(-rotSpeed) + frame->planeY * cos(-rotSpeed);
+	frame->dir_x = frame->dir_x
+		* cos(-rot_speed) - frame->dir_y * sin(-rot_speed);
+	frame->dir_y = frame->olddir_x
+		* sin(-rot_speed) + frame->dir_y * cos(-rot_speed);
+	frame->plane_x = frame->plane_x
+		* cos(-rot_speed) - frame->plane_y * sin(-rot_speed);
+	frame->plane_y = frame->oldplane_x
+		* sin(-rot_speed) + frame->plane_y * cos(-rot_speed);
 }
 
 void	rotate(t_data *data)
 {
 	t_window	*window;
 	t_raycaster	*frame;
-	double		rotSpeed;
+	double		rot_speed;
 
 	window = &data->window;
 	frame = &window->frame;
 	if (mlx_is_key_down(window->mlx, MLX_KEY_RIGHT))
-		rotSpeed = 0.05;
+		rot_speed = 0.05;
 	else if (mlx_is_key_down(window->mlx, MLX_KEY_LEFT))
-		rotSpeed = -0.05;
-	frame->oldDirX = frame->dirX;
-	frame->dirX = frame->dirX * cos(-rotSpeed) - frame->dirY * sin(-rotSpeed);
-	frame->dirY = frame->oldDirX * sin(-rotSpeed) + frame->dirY * cos(-rotSpeed);
-	frame->oldPlaneX = frame->planeX;
-	frame->planeX = frame->planeX * cos(-rotSpeed) - frame->planeY * sin(-rotSpeed);
-	frame->planeY = frame->oldPlaneX * sin(-rotSpeed) + frame->planeY * cos(-rotSpeed);
+		rot_speed = -0.05;
+	frame->olddir_x = frame->dir_x;
+	frame->dir_x = frame->dir_x
+		* cos(-rot_speed) - frame->dir_y * sin(-rot_speed);
+	frame->dir_y = frame->olddir_x
+		* sin(-rot_speed) + frame->dir_y * cos(-rot_speed);
+	frame->oldplane_x = frame->plane_x;
+	frame->plane_x = frame->plane_x
+		* cos(-rot_speed) - frame->plane_y * sin(-rot_speed);
+	frame->plane_y = frame->oldplane_x
+		* sin(-rot_speed) + frame->plane_y * cos(-rot_speed);
 }

@@ -1,0 +1,4 @@
+- fix distorted display when player is close to wall
+- add free texture function to exit success and failure procedures
+- some norm fixes
+- increase wall height if possible

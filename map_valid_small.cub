@@ -1,9 +1,8 @@
 F 91,78,255
-NO ./textures/txt_no.xpm
-SO ./textures/txt_so.xpm
-WE ./textures/txt_we.xpm
-EA ./textures/txt_ea.xpm
-EA ./textures/txt_ea.xpm
+NO /Users/tlemma/Documents/42-curcus_c/cub3d/textures/bluestone.png
+SO /Users/tlemma/Documents/42-curcus_c/cub3d/textures/redbrick.png
+WE /Users/tlemma/Documents/42-curcus_c/cub3d/textures/garden1x64.png
+EA /Users/tlemma/Documents/42-curcus_c/cub3d/textures/wood.png
 
 C 184,220,255
 

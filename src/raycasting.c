@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:17:17 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/22 17:33:39 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:05:20 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,44 @@ void	set_loop(int x, t_raycaster *frame)
 {
 	t_ray	*ray;
 
-	frame->cameraX = (double) (2 * x) / (double) WIDTH - 1;
-	frame->rayDirX = frame->dirX + (frame->planeX * frame->cameraX);
-	frame->rayDirY = frame->dirY + (frame->planeY * frame->cameraX);
+	frame->camera_x = (double)(2 * x) / (double) WIDTH - 1;
+	frame->raydir_x = frame->dir_x + (frame->plane_x * frame->camera_x);
+	frame->raydir_y = frame->dir_y + (frame->plane_y * frame->camera_x);
 	ray = &frame->ray;
-	if (frame->rayDirX == 0)
-		ray->deltaDistX = INFINITY;
+	if (frame->raydir_x == 0)
+		ray->delta_dist_x = INFINITY;
 	else
-		ray->deltaDistX = fabs(1 / frame->rayDirX);
-	if (frame->rayDirY == 0)
-		ray->deltaDistY = INFINITY;
+		ray->delta_dist_x = fabs(1 / frame->raydir_x);
+	if (frame->raydir_y == 0)
+		ray->delta_dist_y = INFINITY;
 	else
-		ray->deltaDistY = fabs(1 / frame->rayDirY);
-	ray->mapX = (int) frame->posX;
-	ray->mapY = (int) frame->posY;
+		ray->delta_dist_y = fabs(1 / frame->raydir_y);
+	ray->map_x = (int) frame->pos_x;
+	ray->map_y = (int) frame->pos_y;
 }
 
-void	calc_step_and_sideDist(t_raycaster	*frame)
+void	calc_step_and_side_dist(t_raycaster	*frame)
 {
 	t_ray	*ray;
 
 	ray = &frame->ray;
 	ray->hit = 0;
-	if (frame->rayDirX < 0)
-    {
-      	ray->stepX = -1;
-      	ray->sideDistX = (frame->posX - ray->mapX) * ray->deltaDistX;
-    }
-    else
-    {
-    	ray->stepX = 1;
-    	ray->sideDistX = (ray->mapX + 1.0 - frame->posX) * ray->deltaDistX;
-    }
-    if (frame->rayDirY < 0)
-    {
-      	ray->stepY = -1;
-      	ray->sideDistY = (frame->posY - ray->mapY) * ray->deltaDistY;
-    }
-    else
-    {
-      	ray->stepY = 1;
-      	ray->sideDistY = (ray->mapY + 1.0 - frame->posY) * ray->deltaDistY;
-    }
+	ray->step_x = 1;
+	ray->side_dist_x = (ray->map_x + 1.0 - frame->pos_x)
+		* ray->delta_dist_x;
+	if (frame->raydir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_dist_x = (frame->pos_x - ray->map_x) * ray->delta_dist_x;
+	}
+		ray->step_y = 1;
+		ray->side_dist_y = (ray->map_y + 1.0 - frame->pos_y)
+		* ray->delta_dist_y;
+	if (frame->raydir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_dist_y = (frame->pos_y - ray->map_y) * ray->delta_dist_y;
+	}
 }
 
 void	exec_dda(char **map, t_raycaster *frame)
@@ -66,32 +62,32 @@ void	exec_dda(char **map, t_raycaster *frame)
 
 	ray = &frame->ray;
 	while (ray->hit == 0)
-    {
-      	if (ray->sideDistX < ray->sideDistY)
-      	{
-      		ray->sideDistX += ray->deltaDistX;
-      	  	ray->mapX += ray->stepX;
-			if (frame->rayDirX < 0)
+	{
+		if (ray->side_dist_x < ray->side_dist_y)
+		{
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->map_x += ray->step_x;
+			if (frame->raydir_x < 0)
 				ray->side = north;
 			else
-      			ray->side = south;
-      	}
-      	else
-      	{
-      	  	ray->sideDistY += ray->deltaDistY;
-      	  	ray->mapY += ray->stepY;
-			if (frame->rayDirY < 0)
-      	  		ray->side = west;
+				ray->side = south;
+		}
+		else
+		{
+			ray->side_dist_y += ray->delta_dist_y;
+			ray->map_y += ray->step_y;
+			if (frame->raydir_y < 0)
+				ray->side = west;
 			else
 				ray->side = east;
-      	}
-		if (map[ray->mapX][ray->mapY] > '0')
+		}
+		if (map[ray->map_x][ray->map_y] > '0')
 			ray->hit = 1;
-    }
+	}
 	if (ray->side == north || ray->side == south)
-		ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
-    else
-		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY);
+		ray->perp_wall_dist = (ray->side_dist_x - ray->delta_dist_x);
+	else
+		ray->perp_wall_dist = (ray->side_dist_y - ray->delta_dist_y);
 } 
 
 void	kill_window(t_window *window)
@@ -104,15 +100,15 @@ void	render(void *param)
 {
 	t_data		*data;
 	t_raycaster	*frame;
-	int			x;
-	
+	int			x;	
+
 	data = (t_data *) param;
 	frame = &data->window.frame;
 	x = 0;
 	while (x < WIDTH)
 	{	
 		set_loop(x, frame);
-		calc_step_and_sideDist(frame);
+		calc_step_and_side_dist(frame);
 		exec_dda(data->map, frame);
 		draw_ray(x, data, frame);
 		x++;

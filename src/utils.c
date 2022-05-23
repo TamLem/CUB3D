@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:12:29 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:07:39 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ bool	check_char(const char c)
 	return (false);
 }
 
-// int	decode_trgb(int color)
-// {
-// 	return (((color >> 24) & 0xFF), ((color >> 16) & 0xFF), 
-// 			((color >> 8) & 0xFF), (color  & 0xFF));
-// }
 void	free_2d(char **arr)
 {
 	int	i;
@@ -45,5 +40,17 @@ void	free_2d(char **arr)
 		}
 		free(arr);
 		arr = NULL;
+	}
+}
+
+void	free_textures(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		mlx_delete_texture(data->textures[i]);
+		i++;
 	}
 }

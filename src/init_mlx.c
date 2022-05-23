@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:31:39 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/21 15:26:45 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/23 14:08:18 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_window(t_data *data)
 {
-	t_window *window;
+	t_window	*window;
 
 	window = &data->window;
 	window->enable = true;
@@ -23,7 +23,7 @@ void	init_window(t_data *data)
 		exit(-1);
 	window->window = mlx_new_image(window->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(window->mlx, window->window, 0, 0);
-	mlx_loop_hook(window->mlx, &hook, data);	
+	mlx_loop_hook(window->mlx, &hook, data);
 }
 
 void	hook(void *param)
@@ -31,8 +31,6 @@ void	hook(void *param)
 	t_data		*data;
 	t_window	*window;
 	t_raycaster	*frame;
-	double		rotSpeed = 0.05;
-	double		moveSpeed = 1.0;
 
 	data = param;
 	window = &data->window;
@@ -44,5 +42,4 @@ void	hook(void *param)
 	}
 	move(data);
 	rotate(data);
-	
 }

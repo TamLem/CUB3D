@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/23 13:13:55 by tlemma            #+#    #+#             */
+/*   Updated: 2022/05/23 13:54:54 by tlemma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
-
-int	get_texture(t_raycaster *frame)
+static int	get_texture(t_raycaster *frame)
 {
 	if (frame->ray.side == north)
 		return (0);
@@ -13,74 +24,79 @@ int	get_texture(t_raycaster *frame)
 		return (3);
 }
 
-void	texturize(t_data *data, int x, int drawStart, int drawEnd)
+static double	get_wall_x(t_raycaster *frame)
 {
-	t_raycaster	*frame;
-	double		wallX;
-	int			texX;
-	int			tex_id;
-	int			texHeight;
-	int 		texWidth;
-	int			lineHeight;
-	double		step;
-	double		textPos;
+	double	wall_x;
 
-	frame = &data->window.frame;
-	tex_id = get_texture(frame);
-	texHeight = data->textures[tex_id]->height;
-	texWidth = data->textures[tex_id]->width;
 	if (frame->ray.side == 0 || frame->ray.side == 1)
-		wallX = frame->posY + frame->ray.perpWallDist * frame->rayDirY;
+		wall_x = frame->pos_y + frame->ray.perp_wall_dist * frame->raydir_y;
 	else
-		wallX = frame->posX + frame->ray.perpWallDist * frame->rayDirX;
-	wallX -= floor((wallX));
-	texX = (int)(wallX * (double)texWidth);
-	if ((frame->ray.side == 0 && frame->rayDirX > 0) || (frame->ray.side == 1 && frame->rayDirY < 0) )
-		texX = texWidth - texX - 1;
-	lineHeight = drawEnd - drawStart;
-	step = 1.0 * texHeight / lineHeight;	
-	textPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
-	int	y = drawStart;
-	while (y < drawEnd)
+		wall_x = frame->pos_x + frame->ray.perp_wall_dist * frame->raydir_x;
+	wall_x -= floor((wall_x));
+	return (wall_x);
+}
+
+static int	get_tex_x(t_raycaster *frame, mlx_texture_t *texture)
+{
+	int	tex_x;
+
+	tex_x = (int)(get_wall_x(frame) * (double)texture->width);
+	if ((frame->ray.side == 0 && frame->raydir_x > 0)
+		|| (frame->ray.side == 1 && frame->raydir_y < 0))
+		tex_x = texture->width - tex_x - 1;
+	return (tex_x);
+}
+
+static void	texturize(t_data *data, int x, int draw_start, int draw_end)
+{
+	int				tex[2];
+	int				line_height;
+	double			step;
+	double			text_pos;
+	mlx_texture_t	*texture;
+
+	texture = data->textures[get_texture(&data->window.frame)];
+	tex[X] = get_tex_x(&data->window.frame, texture);
+	line_height = draw_end - draw_start;
+	step = 1.0 * texture->height / line_height;
+	text_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
+	while (draw_start < draw_end)
 	{
-		int texY = (int)textPos & (texHeight - 1);
-		textPos += step;
-		uint8_t *pixelx = &data->textures[tex_id]->pixels[((texY) * texHeight + (texX)) * 4];
-		uint8_t	*pixeli = &data->window.window->pixels[((y * data->window.window->width + x) * 4)];
-		memmove(pixeli, pixelx, 4);
-		y++;
+		tex[Y] = (int)text_pos & (texture->height - 1);
+		text_pos += step;
+		ft_memmove(&data->window.window->pixels[
+			((draw_start * data->window.window->width + x) * BPP)],
+			&texture->pixels[((tex[Y]) * texture->height + (tex[X])) * BPP],
+			BPP);
+		draw_start++;
 	}
 }
 
 void	draw_ray(int x, t_data *data, t_raycaster *frame)
 {
-	int	lineHeight;
-	int	drawStart;
-	int	drawEnd;
-	t_window *window;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	int			i;
+	t_window	*window;
 
-	lineHeight = 0;
-	drawStart = 0;
-	drawEnd = 0;
 	window = &data->window;
-	if (frame->ray.perpWallDist > 0)
-    	lineHeight = (int) (HEIGHT / frame->ray.perpWallDist);
-	else
-		lineHeight = 0;
-    drawStart = -(lineHeight) / 2 + HEIGHT / 2;
-    if (drawStart < 0)
-		drawStart = 0;
-    drawEnd = lineHeight / 2 + HEIGHT / 2;
-    if (drawEnd >= HEIGHT)
-		drawEnd = HEIGHT - 1;
-	int i = 0;
-	texturize(data, x, drawStart, drawEnd);
-	while (i < HEIGHT)
+	line_height = 0;
+	if (frame->ray.perp_wall_dist > 0)
+		line_height = (int)(HEIGHT / frame->ray.perp_wall_dist);
+	draw_start = -(line_height) / 2 + HEIGHT / 2;
+	if (draw_start < 0)
+		draw_start = 0;
+	draw_end = line_height / 2 + HEIGHT / 2;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
+	texturize(data, x, draw_start, draw_end);
+	i = -1;
+	while (++i < HEIGHT)
 	{
-		if (i < drawStart)
+		if (i < draw_start)
 			mlx_put_pixel(window->window, x, i, window->c);
-		if (i > drawEnd)
+		if (i > draw_end)
 			mlx_put_pixel(window->window, x, i, window->f);
-		i++;
 	}
 }
