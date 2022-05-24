@@ -6,11 +6,21 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 16:31:39 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 19:18:27 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 16:57:43 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+int	cub_exit(t_data *data)
+{
+	free_textures(data);
+	free_2d(data->free_map);
+	mlx_delete_image(data->window.mlx, data->window.window);
+	mlx_close_window(data->window.mlx);
+	mlx_terminate(data->window.mlx);
+	return (EXIT_SUCCESS);
+}
 
 bool	load_texture(t_data *data)
 {

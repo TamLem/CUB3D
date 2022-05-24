@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:31:20 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 17:38:01 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ bool	check_colors(t_color color);
 bool	check_text_path(t_data *data, int i);
 bool	check_txt(char **map);
 char	*get_pwd(char **env);
+bool	check_valid_info(char *str);
 
 // WINDOW AND MLX
 void	init_window(t_data *data);
-void	kill_window(t_window *window);
 void	key_input(t_data *data);
 void	render(void *param);
 

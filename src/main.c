@@ -6,7 +6,7 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:06:31 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 16:57:40 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	error_msg(char *msg, t_data *data)
 	exit(-1);
 }
 
-void cursor_close(void *param)
+void	cursor_close(void *param)
 {
 	t_data	*data;
 
@@ -39,17 +39,6 @@ void	free_textures(t_data *data)
 	}
 }
 
-int cub_exit(t_data *data)
-{
-	free_textures(data);
-	free_2d(data->free_map);
-	mlx_delete_image(data->window.mlx, data->window.window);
-	mlx_close_window(data->window.mlx);
-	mlx_terminate(data->window.mlx);
-	return (EXIT_SUCCESS);
-
-}
-
 void	raycaster(t_data *data)
 {
 	t_raycaster	*frame;
@@ -57,7 +46,7 @@ void	raycaster(t_data *data)
 	frame = &data->window.frame;
 	init_window(data);
 	mlx_close_hook(data->window.mlx, &cursor_close, data);
-	while(data->window.enable)
+	while (data->window.enable)
 	{
 		mlx_loop_hook(data->window.mlx, &render, (data));
 		mlx_loop(data->window.mlx);

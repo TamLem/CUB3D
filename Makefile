@@ -6,7 +6,7 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/23 17:02:22 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/24 17:01:48 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
 
 LIBFT	=	./libft/
 
-SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/map.c ./src/parser/validate_map.c  ./src/parser/parse_utils.c\
+SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/parse_map.c ./src/parser/validate_map.c  ./src/parser/parse_utils.c\
 			./src/init_mlx.c ./src/movement.c  ./src/draw.c \
 			./src/raycasting.c ./src/utils.c
 

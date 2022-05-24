@@ -6,11 +6,30 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:39:10 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:21:53 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 17:57:47 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+bool	check_valid_info(char *str)
+{
+	while (white_space(*str))
+		str++;
+	if (*str == '\0')
+		return (true);
+	if (*str == '1' || *str == '\n')
+		return (true);
+	else if (*str == 'C' || *str == 'F')
+		return (true);
+	else if (!ft_strncmp(str, "NO", 2) || !ft_strncmp(str, "SO", 2)
+		|| !ft_strncmp(str, "EA", 2) || !ft_strncmp(str, "WE", 2))
+		return (true);
+	else if (*str == 'N' || *str == 'S'
+		|| *str == 'E' || *str == 'W')
+		return (false);
+	return (false);
+}
 
 bool	check_colors(t_color color)
 {
@@ -23,14 +42,10 @@ bool	check_colors(t_color color)
 
 bool	check_text_path(t_data *data, int i)
 {
-	if ((!ft_strncmp(data->map[i], "NO", 2)
-			|| !ft_strncmp(data->map[i], "N", 1))
-		|| (!ft_strncmp(data->map[i], "SO", 2)
-			|| !ft_strncmp(data->map[i], "S", 1))
-		|| (!ft_strncmp(data->map[i], "EA", 2)
-			|| !ft_strncmp(data->map[i], "E", 1))
-		|| (!ft_strncmp(data->map[i], "WE", 2))
-		|| !ft_strncmp(data->map[i], "W", 1))
+	if ((!ft_strncmp(data->map[i], "NO", 2))
+		|| (!ft_strncmp(data->map[i], "SO", 2))
+		|| (!ft_strncmp(data->map[i], "EA", 2))
+		|| (!ft_strncmp(data->map[i], "WE", 2)))
 		return (true);
 	return (false);
 }

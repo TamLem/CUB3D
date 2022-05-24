@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 16:53:45 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/24 17:54:58 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@ static void	find_map_start(char ***map)
 {
 	char	**mapstart;
 
-	while (*map && *(*map + 1) && !check_line(*(*map)))
-		(*map)++;
+	while (*map && *(*map + 1) && !check_line(**map))
+	{
+		if (check_valid_info(**map))
+			(*map)++;
+		else
+			error_msg("Invalid specification characters found!", NULL);
+	}
 	mapstart = *map;
 	while (*mapstart)
 	{
-		if ((white_space(**mapstart) || **mapstart == '1') && **mapstart != '\n')
+		if ((white_space(**mapstart) || **mapstart == '1')
+			&& (**mapstart != '\n'))
 			mapstart++;
 		else
 			error_msg("Mapfile has to end with last line of Map!", NULL);
@@ -72,13 +78,13 @@ static void	set_texture_path(t_data *data, char *str)
 		free(path);
 		error_msg("Invalid TXT_PATH!", data);
 	}
-	if (!ft_strncmp(str, "N", 1))
+	if (!ft_strncmp(str, "NO", 2))
 		data->txt_paths[0] = path;
-	else if (!ft_strncmp(str, "S", 1))
+	else if (!ft_strncmp(str, "SO", 2))
 		data->txt_paths[1] = path;
-	else if (!ft_strncmp(str, "E", 1))
+	else if (!ft_strncmp(str, "EA", 2))
 		data->txt_paths[2] = path;
-	else if (!ft_strncmp(str, "W", 1))
+	else if (!ft_strncmp(str, "WE", 2))
 		data->txt_paths[3] = path;
 }
 
