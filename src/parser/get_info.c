@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:54:24 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 16:53:45 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ bool	get_info(t_data *data)
 	int	i;
 	int	colors;
 
+	i = -1;
 	if (!check_txt(data->map))
 		error_msg("Put ONE of each: NO/SO/EA/WE ./path/to/texture", data);
 	while (data->txt_paths[++i])
