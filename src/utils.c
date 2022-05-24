@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 19:29:22 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 17:40:51 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,4 @@ bool	check_char(const char c)
 		|| c == 'E' || c == 'W' || c == ' ')
 		return (true);
 	return (false);
-}
-
-void	free_2d(char **arr)
-{
-	int	i;
-
-	i = -1;
-	if (arr)
-	{
-		while (arr[++i])
-		{
-			free(arr[i]);
-			arr[i] = NULL;
-		}
-		free(arr);
-		arr = NULL;
-	}
 }

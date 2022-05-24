@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 16:53:45 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/24 16:55:16 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void	find_map_start(char ***map)
 	mapstart = *map;
 	while (*mapstart)
 	{
-		if ((white_space(**mapstart) || **mapstart == '1') && **mapstart != '\n')
+		if ((white_space(**mapstart) || **mapstart == '1')
+			&& **mapstart != '\n')
 			mapstart++;
 		else
 			error_msg("Mapfile has to end with last line of Map!", NULL);

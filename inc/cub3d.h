@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:31:20 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 17:40:05 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,6 @@ bool	check_char(const char c);
 void	free_textures(t_data *data);
 int		create_trgb(int t, int r, int g, int b);
 bool	white_space(const char c);
-int 	cub_exit(t_data *data);
+int		cub_exit(t_data *data);
 
 #endif

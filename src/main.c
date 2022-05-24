@@ -3,51 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/23 20:06:31 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 17:39:07 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	error_msg(char *msg, t_data *data)
-{
-	printf("ERROR!\n%s\n", msg);
-	exit(-1);
-}
-
-void cursor_close(void *param)
+void	cursor_close(void *param)
 {
 	t_data	*data;
 
 	data = (t_data *)param;
 	data->window.enable = false;
-}
-
-void	free_textures(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		free(data->txt_paths[i]);
-		mlx_delete_texture(data->textures[i]);
-		i++;
-	}
-}
-
-int cub_exit(t_data *data)
-{
-	free_textures(data);
-	free_2d(data->free_map);
-	mlx_delete_image(data->window.mlx, data->window.window);
-	mlx_close_window(data->window.mlx);
-	mlx_terminate(data->window.mlx);
-	return (EXIT_SUCCESS);
-
 }
 
 void	raycaster(t_data *data)
@@ -57,7 +27,7 @@ void	raycaster(t_data *data)
 	frame = &data->window.frame;
 	init_window(data);
 	mlx_close_hook(data->window.mlx, &cursor_close, data);
-	while(data->window.enable)
+	while (data->window.enable)
 	{
 		mlx_loop_hook(data->window.mlx, &render, (data));
 		mlx_loop(data->window.mlx);

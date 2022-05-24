@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
+#    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/23 17:02:22 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/24 17:48:05 by tlemma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,12 @@ MLX		=	./_MLX42/libmlx42.a
 
 FLAGS	=	-Wall -Werror -Wextra
 
-GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
+GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
 LIBFT	=	./libft/
 
 SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/map.c ./src/parser/validate_map.c  ./src/parser/parse_utils.c\
-			./src/init_mlx.c ./src/movement.c  ./src/draw.c \
+			./src/init_mlx.c ./src/movement.c  ./src/draw.c ./src/exit_and_free.c \
 			./src/raycasting.c ./src/utils.c
 
 OBJ		=	$(SRC:.c=.o)
@@ -30,6 +30,9 @@ $(NAME): $(OBJ)
 	@echo 
 	@make -C $(LIBFT)
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
+
+get-mlx: 
+	$(git submodule init; git submodule update)
 
 clean:
 	rm -f $(shell find ./src/* -iname "*.o")
