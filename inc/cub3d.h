@@ -110,7 +110,7 @@ char	*get_pwd(char **env);
 // WINDOW AND MLX
 void	init_window(t_data *data);
 void	kill_window(t_window *window);
-void	hook(void *param);
+void	key_input(t_data *data);
 void	render(void *param);
 
 //RAY CASTING AND PLAYER MOVEMENT
@@ -130,5 +130,6 @@ bool	check_char(const char c);
 void	free_textures(t_data *data);
 int		create_trgb(int t, int r, int g, int b);
 bool	white_space(const char c);
+int 	cub_exit(t_data *data);
 
 #endif

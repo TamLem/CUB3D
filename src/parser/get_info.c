@@ -66,18 +66,20 @@ static void	set_texture_path(t_data *data, char *str)
 	i++;
 	pwd = get_pwd(data->env);
 	path = ft_strjoin(pwd, str + i);
-	if (access(path, R_OK) != 0)
-		error_msg("Invalid TXT_PATH!", data);
-	if (!ft_strncmp(str, "N", 1))
-		data->txt_paths[0] = ft_strdup(path);
-	else if (!ft_strncmp(str, "S", 1))
-		data->txt_paths[1] = ft_strdup(path);
-	else if (!ft_strncmp(str, "E", 1))
-		data->txt_paths[2] = ft_strdup(path);
-	else if (!ft_strncmp(str, "W", 1))
-		data->txt_paths[3] = ft_strdup(path);
-	free(path);
 	free(pwd);
+	if (access(path, R_OK) != 0)
+	{
+		free(path);
+		error_msg("Invalid TXT_PATH!", data);
+	}
+	if (!ft_strncmp(str, "N", 1))
+		data->txt_paths[0] = path;
+	else if (!ft_strncmp(str, "S", 1))
+		data->txt_paths[1] = path;
+	else if (!ft_strncmp(str, "E", 1))
+		data->txt_paths[2] = path;
+	else if (!ft_strncmp(str, "W", 1))
+		data->txt_paths[3] = path;
 }
 
 bool	get_info(t_data *data)
@@ -85,7 +87,6 @@ bool	get_info(t_data *data)
 	int	i;
 	int	colors;
 
-	i = -1;
 	if (!check_txt(data->map))
 		error_msg("Put ONE of each: NO/SO/EA/WE ./path/to/texture", data);
 	while (data->txt_paths[++i])

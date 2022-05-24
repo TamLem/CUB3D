@@ -99,10 +99,11 @@ void	render(void *param)
 {
 	t_data		*data;
 	t_raycaster	*frame;
-	int			x;	
+	int			x;
 
 	data = (t_data *) param;
 	frame = &data->window.frame;
+	key_input(data);
 	x = 0;
 	while (x < WIDTH)
 	{	

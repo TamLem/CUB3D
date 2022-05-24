@@ -18,13 +18,46 @@ void	error_msg(char *msg, t_data *data)
 	exit(-1);
 }
 
+void cursor_close(void *param)
+{
+	t_data	*data;
+
+	data = (t_data *)param;
+	data->window.enable = false;
+}
+
+void	free_textures(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		free(data->txt_paths[i]);
+		mlx_delete_texture(data->textures[i]);
+		i++;
+	}
+}
+
+int cub_exit(t_data *data)
+{
+	free_textures(data);
+	free_2d(data->free_map);
+	mlx_delete_image(data->window.mlx, data->window.window);
+	mlx_close_window(data->window.mlx);
+	mlx_terminate(data->window.mlx);
+	return (EXIT_SUCCESS);
+
+}
+
 void	raycaster(t_data *data)
 {
 	t_raycaster	*frame;
 
 	frame = &data->window.frame;
 	init_window(data);
-	while (data->window.enable == true)
+	mlx_close_hook(data->window.mlx, &cursor_close, data);
+	while(data->window.enable)
 	{
 		mlx_loop_hook(data->window.mlx, &render, (data));
 		mlx_loop(data->window.mlx);
@@ -45,5 +78,6 @@ int	main(int argc, char **argv, char **env)
 		raycaster(&data);
 	else
 		error_msg("A Problem occured with parsing the mapfile!", &data);
+	cub_exit(&data);
 	return (0);
 }

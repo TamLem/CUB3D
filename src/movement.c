@@ -81,6 +81,8 @@ void	rotate(t_data *data)
 		rot_speed = 0.05;
 	else if (mlx_is_key_down(window->mlx, MLX_KEY_LEFT))
 		rot_speed = -0.05;
+	else
+		return ;
 	frame->olddir_x = frame->dir_x;
 	frame->dir_x = frame->dir_x
 		* cos(-rot_speed) - frame->dir_y * sin(-rot_speed);

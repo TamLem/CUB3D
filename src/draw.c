@@ -48,13 +48,13 @@ static void	texturize(t_data *data, int x, int draw_start, int draw_end)
 	line_height = draw_end - draw_start;
 	text_pos = (draw_start - HEIGHT / 2 + line_height / 2) * step;
 	step = 1.0 * texture->height / line_height;
-	while (draw_start < draw_end)
+	while (draw_start < draw_end && data->window.enable)
 	{
 		tex[Y] = (int)text_pos & (texture->height - 1);
 		text_pos += step;
 		if (draw_start >= 0 && draw_start <= HEIGHT)
 		{
-			ft_memmove(&data->window.window->pixels[
+			ft_memcpy(&data->window.window->pixels[
 				((draw_start * data->window.window->width + x) * BPP)],
 				&texture->pixels[((tex[Y]) * texture->height + (tex[X])) * BPP],
 				BPP);
@@ -81,7 +81,7 @@ void	draw_ray(int x, t_data *data, t_raycaster *frame)
 		draw_end = HEIGHT - 1;
 	texturize(data, x, draw_start, draw_end);
 	i = -1;
-	while (++i < HEIGHT)
+	while (++i < HEIGHT && data->window.enable)
 	{
 		if (i < draw_start)
 			mlx_put_pixel(window->window, x, i, window->c);

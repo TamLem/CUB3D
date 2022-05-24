@@ -49,15 +49,3 @@ void	free_2d(char **arr)
 		arr = NULL;
 	}
 }
-
-void	free_textures(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		mlx_delete_texture(data->textures[i]);
-		i++;
-	}
-}

@@ -32,12 +32,6 @@ bool	load_texture(t_data *data)
 	return (true);
 }
 
-void	kill_window(t_window *window)
-{
-	mlx_delete_image(window->mlx, window->window);
-	mlx_terminate(window->mlx);
-}
-
 void	init_window(t_data *data)
 {
 	t_window	*window;
@@ -49,18 +43,13 @@ void	init_window(t_data *data)
 		exit(-1);
 	window->window = mlx_new_image(window->mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(window->mlx, window->window, 0, 0);
-	mlx_loop_hook(window->mlx, &hook, data);
 }
 
-void	hook(void *param)
+void	key_input(t_data *data)
 {
-	t_data		*data;
 	t_window	*window;
 	t_raycaster	*frame;
-	int			i;
 
-	i = 0;
-	data = param;
 	window = &data->window;
 	frame = &window->frame;
 	if (mlx_is_key_down(window->mlx, MLX_KEY_ESCAPE))
