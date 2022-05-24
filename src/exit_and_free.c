@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_and_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 17:39:12 by tlemma            #+#    #+#             */
-/*   Updated: 2022/05/24 19:39:13 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/24 20:18:06 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	error_msg(char *msg, t_data *data)
 {
-	int	i;
-
-	i = 0;
 	printf("ERROR!\n%s\n", msg);
-	while (data->txt_paths[i])
-		free(data->txt_paths[i++]);
+	if (data->txt_paths[0])
+		free(data->txt_paths[0]);
+	if (data->txt_paths[1])
+		free(data->txt_paths[1]);
+	if (data->txt_paths[2])
+		free(data->txt_paths[2]);
+	if (data->txt_paths[3])
+		free(data->txt_paths[3]);
 	if (data->free_map)
 		free_2d(data->free_map);
 	exit(-1);
@@ -42,10 +45,10 @@ void	free_2d(char **arr)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (arr)
 	{
-		while (arr[++i])
+		while (arr[i++])
 		{
 			free(arr[i]);
 			arr[i] = NULL;

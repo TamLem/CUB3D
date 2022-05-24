@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 19:34:59 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/24 19:53:43 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	init_data(t_data *data)
 {
 	data->free_map = NULL;
 	data->txt_paths[0] = NULL;
+	data->txt_paths[1] = NULL;
+	data->txt_paths[2] = NULL;
+	data->txt_paths[3] = NULL;
 }
 
 void	raycaster(t_data *data)

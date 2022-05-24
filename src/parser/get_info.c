@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 19:27:26 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/24 20:17:36 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-static void	find_map_start(char ***map)
+static void	find_map_start(char ***map, t_data *data)
 {
 	char	**mapstart;
 
@@ -26,11 +26,10 @@ static void	find_map_start(char ***map)
 	mapstart = *map;
 	while (*mapstart)
 	{
-		if ((white_space(**mapstart) || **mapstart == '1')
-			&& (**mapstart != '\n'))
+		if (**mapstart && (white_space(**mapstart) || **mapstart == '1'))
 			mapstart++;
 		else
-			error_msg("Mapfile has to end with last line of Map!", NULL);
+			error_msg("Mapfile has to end with Map!", data);
 	}
 }
 
@@ -52,7 +51,7 @@ static int	find_color_cf(t_data *data, char *str)
 	}
 	free_2d(colors);
 	if (!check_colors(color))
-		error_msg("Please use RBG values from 0-255!", data);
+		error_msg("Invalid color format! (e.g. 'C/F 0,127,255')", data);
 	if (str[0] == 'F' && data->window.f == -1)
 		data->window.f = create_trgb(color.red, color.green, color.blue, 255);
 	else if (str[0] == 'C' && data->window.c == -1)
@@ -76,6 +75,7 @@ static void	set_texture_path(t_data *data, char *str)
 	if (access(path, R_OK) != 0)
 	{
 		free(path);
+		path = NULL;
 		error_msg("Invalid TXT_PATH!", data);
 	}
 	if (!ft_strncmp(str, "NO", 2))
@@ -95,7 +95,7 @@ bool	get_info(t_data *data)
 
 	i = -1;
 	if (!check_txt(data->map))
-		error_msg("Put ONE of each: NO/SO/EA/WE ./path/to/texture", data);
+		error_msg("Put ONE (!) of each: NO/SO/EA/WE ./path/to/texture", data);
 	while (data->txt_paths[++i])
 		data->txt_paths[i] = NULL;
 	colors = 0;
@@ -109,7 +109,7 @@ bool	get_info(t_data *data)
 			colors += find_color_cf(data, data->map[i]);
 	}
 	if (colors != 2 || (data->window.c == -1 || data->window.f == -1))
-		error_msg("You have to set C AND F (only) once! ('C/F R,G,B')", data);
-	find_map_start(&data->map);
+		error_msg("Invalid color format! (e.g. 'C/F 0,127,255')", data);
+	find_map_start(&data->map, data);
 	return (true);
 }
