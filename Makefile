@@ -6,7 +6,7 @@
 #    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/24 17:48:05 by tlemma           ###   ########.fr        #
+#    Updated: 2022/05/24 17:51:00 by tlemma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,6 @@ $(NAME): $(OBJ)
 	@echo 
 	@make -C $(LIBFT)
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
-
-get-mlx: 
-	$(git submodule init; git submodule update)
 
 clean:
 	rm -f $(shell find ./src/* -iname "*.o")
