@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 19:02:50 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 19:34:59 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void	cursor_close(void *param)
 
 	data = (t_data *)param;
 	data->window.enable = false;
+}
+
+void	init_data(t_data *data)
+{
+	data->free_map = NULL;
+	data->txt_paths[0] = NULL;
 }
 
 void	raycaster(t_data *data)
@@ -39,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 	t_data	data;
 
 	data.env = env;
+	init_data(&data);
 	if (argc != 2)
 	{
 		error_msg(

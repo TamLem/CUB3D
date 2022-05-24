@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 18:02:21 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 19:27:26 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ bool	get_info(t_data *data)
 	}
 	if (colors != 2 || (data->window.c == -1 || data->window.f == -1))
 		error_msg("You have to set C AND F (only) once! ('C/F R,G,B')", data);
-	data->free_map = data->map;
 	find_map_start(&data->map);
 	return (true);
 }

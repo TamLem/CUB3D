@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:00:05 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 17:40:40 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 19:27:34 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,10 @@ bool	parse_map(t_data *data, char *file)
 		error_msg("Mapfile has to be available and end with .cub", data);
 		return (false);
 	}
-	data->map = return_map(file);
 	data->window.c = -1;
 	data->window.f = -1;
+	data->map = return_map(file);
+	data->free_map = data->map;
 	if (data->map && get_info(data)
 		&& (validate_map(data->map, data)))
 		return (true);
