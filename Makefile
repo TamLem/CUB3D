@@ -6,7 +6,7 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/24 18:02:58 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/24 19:08:23 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,13 @@ MLX		=	./_MLX42/libmlx42.a
 
 FLAGS	=	-Wall -Werror -Wextra
 
-GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
+GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
 
 LIBFT	=	./libft/
 
 SRC		=	./src/main.c ./src/parser/get_info.c ./src/parser/parse_map.c ./src/parser/validate_map.c  ./src/parser/parse_utils.c\
 			./src/init_mlx.c ./src/movement.c  ./src/draw.c \
-			./src/raycasting.c ./src/utils.c
+			./src/raycasting.c ./src/utils.c ./src/exit_and_free.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -32,7 +32,7 @@ $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJ) $(MLX) $(GLFW) $(LIBFT)libft.a
 
 clean:
-	rm -f $(shell find ./src/* -iname "*.o")
+	rm -f $(OBJ)
 	@make clean -C $(LIBFT)
 
 fclean:
@@ -40,6 +40,8 @@ fclean:
 	rm -f $(LIBFT)libft.a
 
 re: clean fclean $(NAME)
+
+all: re clean
 
 mlx:
 	make -C ./_MLX42/

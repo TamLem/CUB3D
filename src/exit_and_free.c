@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_and_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 17:39:12 by tlemma            #+#    #+#             */
-/*   Updated: 2022/05/24 17:41:47 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/24 19:04:16 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	error_msg(char *msg, t_data *data)
 {
 	printf("ERROR!\n%s\n", msg);
+	system("leaks cub3D");
 	exit(-1);
 }
 

@@ -6,17 +6,11 @@
 /*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:18:43 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 18:02:12 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/24 19:02:50 by jroth            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
-void	error_msg(char *msg, t_data *data)
-{
-	printf("ERROR!\n%s\n", msg);
-	exit(-1);
-}
 
 void	cursor_close(void *param)
 {
@@ -24,19 +18,6 @@ void	cursor_close(void *param)
 
 	data = (t_data *)param;
 	data->window.enable = false;
-}
-
-void	free_textures(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		free(data->txt_paths[i]);
-		mlx_delete_texture(data->textures[i]);
-		i++;
-	}
 }
 
 void	raycaster(t_data *data)
