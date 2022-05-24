@@ -6,7 +6,7 @@
 #    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/24 17:01:48 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/24 18:02:58 by jroth            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ MLX		=	./_MLX42/libmlx42.a
 
 FLAGS	=	-Wall -Werror -Wextra
 
-GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
+GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
 LIBFT	=	./libft/
 
