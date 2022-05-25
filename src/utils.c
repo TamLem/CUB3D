@@ -6,7 +6,7 @@
 /*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 14:29:06 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 17:40:51 by tlemma           ###   ########.fr       */
+/*   Updated: 2022/05/25 15:19:56 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	white_space(const char c)
 
 int	create_trgb(int r, int g, int b, int t)
 {
-	return (r << 24 | g << 16 | b << 8 | t);
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 
 bool	check_char(const char c)

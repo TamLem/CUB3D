@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_info.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroth <jroth@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:31:46 by jroth             #+#    #+#             */
-/*   Updated: 2022/05/24 20:17:36 by jroth            ###   ########.fr       */
+/*   Updated: 2022/05/25 16:41:55 by tlemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ bool	get_info(t_data *data)
 			colors += find_color_cf(data, data->map[i]);
 	}
 	if (colors != 2 || (data->window.c == -1 || data->window.f == -1))
+	{
+		printf("here1 %d %d\n", data->window.c, data->window.f);
 		error_msg("Invalid color format! (e.g. 'C/F 0,127,255')", data);
+	}
 	find_map_start(&data->map, data);
 	return (true);
 }

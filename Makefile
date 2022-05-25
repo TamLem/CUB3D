@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jroth <jroth@student.42.fr>                +#+  +:+       +#+         #
+#    By: tlemma <tlemma@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 16:08:59 by jroth             #+#    #+#              #
-#    Updated: 2022/05/24 19:08:23 by jroth            ###   ########.fr        #
+#    Updated: 2022/05/25 14:05:02 by tlemma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ MLX		=	./_MLX42/libmlx42.a
 
 FLAGS	=	-Wall -Werror -Wextra
 
-GLFW	=	-lglfw -L /Users/$(USER)/.brew/opt/glfw/lib/
+GLFW	=	-lglfw -L /Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
 LIBFT	=	./libft/
 
